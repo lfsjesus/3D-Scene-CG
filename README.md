@@ -1,10 +1,10 @@
 # CG 2023/2024
 
-## Group T0xG0y
+## Group T03G04
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| Luís Jesus         | 202108683 | ...                |
-| Miguel Rocha         | 202108720 | ...                |
+| Luís Jesus         | 202108683 | up202108683@up.pt                |
+| Miguel Rocha         | 202108720 | up202108720@up.pt                |
 
 ----
 

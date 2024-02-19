@@ -26,6 +26,12 @@ export class MyInterface extends CGFinterface {
         //Checkbox element in GUI to display my triangle
         this.gui.add(this.scene, 'displayTriangle').name('Display Triangle');
 
+        //Checkbox element in GUI to display my small triangle
+        this.gui.add(this.scene, 'displayTriangleSmall').name('Display Small Triangle');
+
+        //Checkbox element in GUI to display my big triangle
+        this.gui.add(this.scene, 'displayTriangleBig').name('Display Big Triangle');
+        
         //Checkbox element in GUI to display my parallelogram
         this.gui.add(this.scene, 'displayParallelogram').name('Display Parallel');
 

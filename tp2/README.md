@@ -10,4 +10,4 @@
 
 - Overall, these exercises helped us understand the basics of creating and rendering geometric shapes in WebGL, as well as how to manipulate their appearance and visibility in our scene.
 
-![Screenshot 1](screenshots/cg-t03g04-tp1-1.png)
+![Screenshot 1](screenshots/cg-t03g04-tp2-1.png)

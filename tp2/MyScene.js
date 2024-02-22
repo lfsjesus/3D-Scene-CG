@@ -46,6 +46,7 @@ export class MyScene extends CGFscene {
     this.scaleFactor = 1;
   }
   initLights() {
+    this.lights[0].setAmbient(0.3, 0.3, 0.3, 1.0);
     this.lights[0].setPosition(15, 2, 5, 1);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[0].enable();
@@ -165,6 +166,7 @@ export class MyScene extends CGFscene {
 
     if (this.displayParallelogram){
       this.pushMatrix();
+      this.setAmbient(1, 1, 0, 1.0);
       // set diffuse to rgba(255,255,255,255)
       this.setDiffuse(1.0, 1.0, 0, 1.0);
       this.translate(-3, 0, 0);

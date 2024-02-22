@@ -4,6 +4,7 @@ import { MyTriangle } from "./MyTriangle.js";
 import { MyParallelogram } from "./MyParallelogram.js";
 import { MyTriangleSmall } from "./MyTriangleSmall.js";
 import { MyTriangleBig } from "./MyTriangleBig.js";
+import { MyTangram } from "./MyTangram.js";
 
 
 /**
@@ -30,19 +31,12 @@ export class MyScene extends CGFscene {
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
-    this.diamond = new MyDiamond(this);
-    this.triangle = new MyTriangle(this);
-    this.parallelogram = new MyParallelogram(this);
-    this.triangleSmall = new MyTriangleSmall(this);
-    this.triangleBig = new MyTriangleBig(this);
+    this.tangram = new MyTangram(this);
+
 
     //Objects connected to MyInterface
     this.displayAxis = true;
-    this.displayDiamond = true;
-    this.displayTriangle = true;
-    this.displayParallelogram = true;
-    this.displayTriangleSmall = true;
-    this.displayTriangleBig = true;
+    this.displayTangram = true;
     this.scaleFactor = 1;
   }
   initLights() {
@@ -109,92 +103,11 @@ export class MyScene extends CGFscene {
 
     // ---- BEGIN Primitive drawing section
 
-    if (this.displayDiamond){
 
-      //set diffuse to rgba(255,255,0,255)
-      this.setDiffuse(0, 1.0, 0.0, 1.0);
-   
-
-      let matrixTranslate = 
-                        [1, 0, 0, 0,
-                         0, 1, 0, 0,
-                         0, 0, 1, 0,
-                         0, 1, 0, 1];
-
-      this.multMatrix(matrixTranslate);
-      this.diamond.display();                   
+    if(this.displayTangram){
+      this.tangram.display();
     }
 
-    if (this.displayTriangleBig){
-      // we will now use CGFscene.translate(x, y, z) , etc and CGFscene.pushMatrix() and CGFscene.popMatrix()
-
-
-      this.pushMatrix();
-      // set diffuse to rgba(255,155,0,255)
-      this.setDiffuse(1.0, 0.6, 0.0, 1.0);
-      this.translate(0.58, -2.415, 0);
-      this.rotate(-Math.PI/4, 0, 0, 1);
-      this.triangleBig.display();
-      this.popMatrix();
-
-      this.pushMatrix();
-      // set diffuse to rgba(0,155,255,255)
-      this.setDiffuse(0, 0.6, 1.0, 1.0);
-      this.translate(0, -3.83, 0);
-      this.triangleBig.display();
-      this.popMatrix();
-    }
-
-    if (this.displayTriangleSmall){
-    
-      this.pushMatrix();
-      // set diffuse to rgba(150,80,190,255)
-      this.setDiffuse(0.6, 0.3, 0.7, 1.0);
-      this.translate(1, -1, 0);
-      this.triangleSmall.display();
-      this.popMatrix();
-
-
-      this.pushMatrix();
-      // set diffuse to rgba(255,27,27,255)
-      this.setDiffuse(1.0, 0.1, 0.1, 1.0);
-      this.translate(-2, -2.83, 0);
-      this.rotate(-Math.PI/2, 0, 0, 1);
-      this.triangleSmall.display();
-      this.popMatrix();
-    }
-
-    if (this.displayParallelogram){
-      this.pushMatrix();
-      this.setAmbient(1, 1, 0, 1.0);
-      // set diffuse to rgba(255,255,255,255)
-      this.setDiffuse(1.0, 1.0, 0, 1.0);
-      this.translate(-3, 0, 0);
-      this.rotate(Math.PI, 1, 0, 0);
-      this.parallelogram.display();
-      this.popMatrix();
-    }
-
-    if (this.displayTriangle){
-      this.pushMatrix();
-      // set diffuse to rgba(255,155,207,255)
-      this.setDiffuse(1.0, 0.6, 0.8, 1.0);
-      this.translate(-1, 1.415, 0);
-      this.rotate(Math.PI/4, 0, 0, 1);
-      this.triangle.display();
-      this.popMatrix();
-
-    }
-
-
-
-
-    
-    
-
-
-
-  
     // ---- END Primitive drawing section
   }
 }

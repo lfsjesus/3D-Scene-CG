@@ -23,6 +23,9 @@ export class MyInterface extends CGFinterface {
         //Checkbox element in GUI to display my tangram
         this.gui.add(this.scene, 'displayTangram').name('Display Tangram');
 
+        //Checkbox element in GUI to display my unit cube
+        this.gui.add(this.scene, 'displayMyUnitCube').name('Display Cube');
+
         //Slider element in GUI
         this.gui.add(this.scene, 'scaleFactor', 0.1, 5).name('Scale Factor');
 

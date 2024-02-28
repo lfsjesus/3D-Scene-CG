@@ -1,9 +1,9 @@
 import {CGFobject} from '../lib/CGF.js';
-import {MyDiamond} from '../tp2/MyDiamond.js';
-import {MyTriangle} from '../tp2/MyTriangle.js';
-import {MyTriangleSmall} from '../tp2/MyTriangleSmall.js';
-import {MyTriangleBig} from '../tp2/MyTriangleBig.js';
-import {MyParallelogram} from '../tp2/MyParallelogram.js';
+import {MyDiamond} from '../tp3/MyDiamond.js';
+import {MyTriangle} from '../tp3/MyTriangle.js';
+import {MyTriangleSmall} from '../tp3/MyTriangleSmall.js';
+import {MyTriangleBig} from '../tp3/MyTriangleBig.js';
+import {MyParallelogram} from '../tp3/MyParallelogram.js';
 
 
 /**
@@ -30,8 +30,6 @@ export class MyTangram extends CGFobject {
 
 			//MyDiamond
 			this.scene.pushMatrix();
-			//set diffuse to rgba(255,255,0,255)
-			this.scene.setAmbient(0, 1.0, 0.0, 1.0);
 			let matrixTranslate = 
 							  [1, 0, 0, 0,
 							   0, 1, 0, 0,
@@ -47,16 +45,12 @@ export class MyTangram extends CGFobject {
 			// we will now use CGFscene.translate(x, y, z) , etc and CGFscene.pushMatrix() and CGFscene.popMatrix()
 			//MyTriangleBig
 			this.scene.pushMatrix();
-			// set diffuse to rgba(255,155,0,255)
-			this.scene.setAmbient(1.0, 0.6, 0.0, 1.0);
 			this.scene.translate(0.58, -1.415, 0);
 			this.scene.rotate(-Math.PI/4, 0, 0, 1);
 			this.triangleBig.display();
 			this.scene.popMatrix();
 	  
 			this.scene.pushMatrix();
-			// set diffuse to rgba(0,155,255,255)
-			this.scene.setAmbient(0, 0.6, 1.0, 1.0);
 			this.scene.translate(0, -2.83, 0);
 			this.triangleBig.display();
 			this.scene.popMatrix();
@@ -64,16 +58,12 @@ export class MyTangram extends CGFobject {
 
 			//MyTriangleSmall
 			this.scene.pushMatrix();
-			// set diffuse to rgba(150,80,190,255)
-			this.scene.setAmbient(0.6, 0.3, 0.7, 1.0);
 			this.scene.translate(1, 0, 0);
 			this.triangleSmall.display();
 			this.scene.popMatrix();
 	  
 	  
 			this.scene.pushMatrix();
-			// set diffuse to rgba(255,27,27,255)
-			this.scene.setAmbient(1.0, 0.1, 0.1, 1.0);
 			this.scene.translate(-2, -1.83, 0);
 			this.scene.rotate(-Math.PI/2, 0, 0, 1);
 			this.triangleSmall.display();
@@ -82,8 +72,6 @@ export class MyTangram extends CGFobject {
 
 			//MyParallelogram
 			this.scene.pushMatrix();
-			this.scene.setAmbient(1, 1, 0, 1.0);
-			// set diffuse to rgba(255,255,255,255)
 			this.scene.translate(-3, 1, 0);
 			this.scene.rotate(Math.PI, 1, 0, 0);
 			this.parallelogram.display();
@@ -92,8 +80,6 @@ export class MyTangram extends CGFobject {
 			
 			//MyTriangle
 			this.scene.pushMatrix();
-			// set diffuse to rgba(255,155,207,255)
-			this.scene.setAmbient(1.0, 0.6, 0.8, 1.0);
 			this.scene.translate(-1, 2.415, 0);
 			this.scene.rotate(Math.PI/4, 0, 0, 1);
 			this.triangle.display();

@@ -89,7 +89,7 @@ export class MyTangram extends CGFobject {
 			this.scene.translate(-1, 2.415, 0);
 			this.scene.rotate(Math.PI/4, 0, 0, 1);
 			this.triangle.display();
-			this.triangle.enableNormalViz();
+			//this.triangle.enableNormalViz();
 			this.scene.popMatrix();
 
 

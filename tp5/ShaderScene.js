@@ -100,7 +100,8 @@ export class ShaderScene extends CGFscene {
 		this.testShaders[5].setUniformsValues({ uSampler2: 1 });
 		this.testShaders[6].setUniformsValues({ uSampler2: 1 });
 		this.testShaders[6].setUniformsValues({ timeFactor: 0 });
-		this.testShaders[11].setUniformsValues({ uSampler2: 1 });
+		this.testShaders[9].setUniformsValues({ normScale: 1, timeFactor: 0 });
+		this.testShaders[11].setUniformsValues({ normScale: 1, timeFactor: 0 });
 
 		// Shaders interface variables
 
@@ -202,7 +203,9 @@ export class ShaderScene extends CGFscene {
 			// Doing the modulus (%) by 100 makes the timeFactor loop between 0 and 99
 			// ( so the loop period of timeFactor is 100 times 100 ms = 10s ; the actual animation loop depends on how timeFactor is used in the shader )
 			this.testShaders[6].setUniformsValues({ timeFactor: t / 100 % 100 });
-	}
+			this.testShaders[9].setUniformsValues({ timeFactor: t / 100 % 100 });
+			this.testShaders[11].setUniformsValues({ timeFactor: t / 70 % 100 });
+		}
 
 	// main display function
 	display() {

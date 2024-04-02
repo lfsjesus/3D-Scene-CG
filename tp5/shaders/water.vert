@@ -10,9 +10,11 @@ uniform sampler2D waterMap;
 
 varying vec2 vTextureCoord;
 
+uniform float timeFactor;
+
 void main() {
-    vTextureCoord = aTextureCoord;
-    vec3 offset = aVertexNormal * 0.1 * texture2D(waterMap, vTextureCoord).b;
+	vTextureCoord = aTextureCoord;
+	vec3 offset = aVertexNormal * 0.1 * texture2D(waterMap, vTextureCoord + vec2(0.0015*timeFactor, 0.0015*timeFactor)).b;
 	gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition + offset, 1.0);
 }
 

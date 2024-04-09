@@ -1,6 +1,7 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
 import { MyPlane } from "./MyPlane.js";
 import { MyPanorama } from "./Objects/MyPanorama.js";
+import { MyFlower } from "./Objects/MyFlower.js";
 
 
 /**
@@ -29,6 +30,7 @@ export class MyScene extends CGFscene {
     this.axis = new CGFaxis(this);
     this.plane = new MyPlane(this,30);
     this.panorama = new MyPanorama(this, new CGFtexture(this, 'images/panorama.jpg'), 200);
+    this.flower = new MyFlower(this, 10, 10, 1);
 
 
     //Objects connected to MyInterface
@@ -80,12 +82,16 @@ export class MyScene extends CGFscene {
     this.translate(0,-100,0);
     this.scale(400,400,400);
     this.rotate(-Math.PI/2.0,1,0,0);
-   
     this.popMatrix();
 
     this.pushMatrix();
     this.panorama.display();
     this.popMatrix();
+
+    this.pushMatrix();
+    this.flower.display();
+    this.popMatrix();
+
 
 
     // ---- END Primitive drawing section

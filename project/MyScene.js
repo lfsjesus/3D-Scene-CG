@@ -28,7 +28,7 @@ export class MyScene extends CGFscene {
     //Initialize scene objects
     this.axis = new CGFaxis(this);
     this.plane = new MyPlane(this,30);
-    this.sphere = new MySphere(this, 16, 32, 16);
+    this.sphere = new MySphere(this, 16, 8, 1, false);
 
 
     //Objects connected to MyInterface

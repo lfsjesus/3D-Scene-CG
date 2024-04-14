@@ -4,20 +4,16 @@ import {MyTriangle} from '../Primitives/MyTriangle.js';
  * MyPetal class - Represents a petal of a flower, which consists of two triangles
  */
 export class MyPetal extends CGFobject {
-    constructor(scene, rotateAngle, curvatureAngle) {
+    constructor(scene, length, rotateAngle, curvatureAngle, heartAngle) {
         super(scene);
         this.rotateAngle = rotateAngle;
         this.curvatureAngle = curvatureAngle;
-        this.triangle1 = new MyTriangle(scene, 1, 1);
-        this.triangle2 = new MyTriangle(scene, 1, 1);   
+        this.heartAngle = heartAngle;
+        this.triangle1 = new MyTriangle(scene, 1, length/2);
+        this.triangle2 = new MyTriangle(scene, 1, length/2);   
     }
 
     display() {
-
-        this.scene.pushMatrix();    
-        // Rotate the entire petal by the rotation angle around the Z axis
-        this.scene.rotate(this.rotateAngle, 0, 0, 1);
-
         //translate the first triangle height (which now is 1)
         //then, rotate the triangle by curvature angle
         this.scene.pushMatrix();
@@ -38,14 +34,5 @@ export class MyPetal extends CGFobject {
         this.triangle2.display();
 
         this.scene.popMatrix();
-
-        this.scene.pushMatrix();
-        this.scene.popMatrix();
-
-        this.scene.popMatrix();
-
-
-
-
     }
 }

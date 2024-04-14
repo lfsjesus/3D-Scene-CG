@@ -4,7 +4,7 @@ import { MyPetal } from "./MyPetal.js";
 import { MyReceptacle } from "./MyReceptacle.js"
 
 export class MyFlower extends CGFobject {
-    constructor(scene, numPetals, flowerRadius, receptacleRadius, stemRadius, stemHeight,  petalColor, recepColor, stemColor, leafColor) {
+    constructor(scene, numPetals, flowerRadius, receptacleRadius, stemRadius, numStems,  petalColor, recepColor, stemColor, leafColor) {
         super(scene);
         this.receptacle = new MyReceptacle(scene, 16, 8, receptacleRadius);
 
@@ -24,14 +24,45 @@ export class MyFlower extends CGFobject {
 
         this.stems = [];
 
-        for (let i = 0; i < stemHeight; i++) {
-            this.stems.push(new MyStem(scene, 16, 1, stemRadius));
+        for (let i = 0; i < numStems; i++) {
+
+            //the height of each stem should be random between 1 and 2, inclusive
+            //let height = Math.random() + 1;
+            let height = 1;
+            
+            //the stems should have a random curvature angle between -PI/8 and PI/8
+            let curvatureAngle = Math.random() * Math.PI/4 - Math.PI/8;
+            this.stems.push(new MyStem(scene, 16, height, stemRadius, curvatureAngle));
         }
-        
+        console.log(this.stems);
     }
 
     display() {
-        /*
+        // Add stems
+        let stemHeight = 0;
+        
+        this.scene.pushMatrix();
+
+        for (let i = 0; i < this.stems.length; i++) {
+            let stem = this.stems[i];
+
+            if (i > 0) { // Only translate if it's not the first stem
+                this.scene.translate(0, stem.height, 0);
+            }
+
+            // Always rotate
+            this.scene.rotate(stem.curvatureAngle, 1, 0, 0);
+            stem.display();
+            stemHeight += stem.height;
+        }
+
+        this.scene.popMatrix();
+
+
+        // TRANSLATE EVERYTHING UP TO THE TOP OF THE STEM
+        this.scene.pushMatrix();
+        this.scene.translate(0, stemHeight, 0);
+
         // MyReceptacle
         this.scene.pushMatrix();
         this.receptacle.display();
@@ -52,14 +83,10 @@ export class MyFlower extends CGFobject {
         }
 
         this.scene.popMatrix();
-        */
-        // Add stems
-        this.scene.pushMatrix();
 
-        for (let stem of this.stems) {
-            stem.display();
-            this.scene.translate(0, 0, 1);
-        }
+        this.scene.popMatrix();
+        
+
 
     }
 }

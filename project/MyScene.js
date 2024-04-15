@@ -32,12 +32,17 @@ export class MyScene extends CGFscene {
     this.axis = new CGFaxis(this);
     this.plane = new MyPlane(this, 30);
     this.panorama = new MyPanorama(this, new CGFtexture(this, 'images/panorama.jpg'), 200);
-    this.garden = new MyGarden(this, 5, 5, 5);
-
+    
+  
 
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.scaleFactor = 1;
+    this.gardenRows = 5; // número de linhas no jardim
+    this.gardenCols = 5; // número de colunas no jardim
+    this.flowerSpacing = 5; // distância entre as flores
+
+    this.garden = new MyGarden(this, this.gardenRows, this.gardenCols, this.flowerSpacing);
 
     this.enableTextures(true);
 
@@ -65,6 +70,8 @@ export class MyScene extends CGFscene {
     this.setShininess(10.0);
   }
   display() {
+
+
     // ---- BEGIN Background, camera and axis setup
     // Clear image and depth buffer everytime we update the scene
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);

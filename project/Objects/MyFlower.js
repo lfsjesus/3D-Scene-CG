@@ -29,14 +29,17 @@ export class MyFlower extends CGFobject {
 
             //the height of each stem should be random between 0.5 and 2, inclusive
             let height = Math.random() * 1 + 0.5;
-            
+
+
             //the stems should have a random curvature angle between -PI/8 and PI/8
             let curvatureAngle = Math.random() * Math.PI/4 - Math.PI/8;
+
             this.stems.push(new MyStem(scene, 16, height, stemRadius, curvatureAngle));
 
             //between each pair of stems, there should be added a new stem with a petal new MyStem(scene, 16, 0.1, radius, curvatureAngle, true)
             if(i < numStems-1){
-                this.stems.push(new MyStem(scene, 16, 0.1, stemRadius, curvatureAngle, true));
+                let stemSide = Math.random() < 0.5 ? -1 : 1;
+                this.stems.push(new MyStem(scene, 16, 0.05, stemRadius, curvatureAngle, true, stemSide));
             }
             
 
@@ -62,22 +65,24 @@ export class MyFlower extends CGFobject {
     
            
             this.scene.rotate(stem.curvatureAngle, 1, 0, 0);
-            let blueMaterial = new CGFappearance(this.scene);
+            
             if(stem.hasPetal){
-                //make the color of the stem blue
+                //add a petal to this stem
+                let petal = new MyPetal(this.scene, 0.5,0,1,0);
+                this.scene.pushMatrix();
                 
-                blueMaterial.setAmbient(0, 0, 1, 1); // Blue color in RGBA
-                blueMaterial.apply();
+                //get a random number which is either -1 or 1
+
+                this.scene.translate(0.5 * stem.stemSide, -20* stem.height, offsetZ/20);
+                
+
+                petal.display();
+                this.scene.popMatrix();
             }
 
             // Draw the stem
             stem.display();
 
-            //reset the material to the default
-            blueMaterial = new CGFappearance(this.scene);
-            blueMaterial.setAmbient(1, 1, 1, 1); // Default color in RGBA
-            blueMaterial.apply();
-    
             this.scene.popMatrix();
     
             // Update stemHeight with the height of this stem to position the next one correctly

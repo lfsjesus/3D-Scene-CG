@@ -3,6 +3,7 @@ import { MyPlane } from "./MyPlane.js";
 import { MyPanorama } from "./Objects/MyPanorama.js";
 import { MyFlower } from "./Objects/MyFlower.js";
 import { MyPetal } from "./Objects/MyPetal.js";
+import { MyGarden } from "./Objects/MyGarden.js";
 
 
 /**
@@ -15,7 +16,7 @@ export class MyScene extends CGFscene {
   }
   init(application) {
     super.init(application);
-    
+
     this.initCameras();
     this.initLights();
 
@@ -29,9 +30,11 @@ export class MyScene extends CGFscene {
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
-    this.plane = new MyPlane(this,30);
+    this.plane = new MyPlane(this, 30);
     this.panorama = new MyPanorama(this, new CGFtexture(this, 'images/panorama.jpg'), 200);
     this.flower = new MyFlower(this, 6, 2, 0.3, 0.1, 3, null, null, null, null,);;
+    this.garden = new MyGarden(this, 5, 5, 5);
+
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -79,16 +82,20 @@ export class MyScene extends CGFscene {
     // ---- BEGIN Primitive drawing section
 
     this.pushMatrix();
-    this.translate(0,-100,0);
-    this.scale(400,400,400);
-    this.rotate(-Math.PI/2.0,1,0,0);
+    this.translate(0, -100, 0);
+    this.scale(400, 400, 400);
+    this.rotate(-Math.PI / 2.0, 1, 0, 0);
     this.popMatrix();
 
-    
+    /*
     this.pushMatrix();
     this.flower.display();
     this.popMatrix();
-    
+    */
+
+    this.pushMatrix();
+    this.garden.display();
+    this.popMatrix();
 
 
     // ---- END Primitive drawing section

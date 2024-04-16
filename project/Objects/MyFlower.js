@@ -102,23 +102,27 @@ export class MyFlower extends CGFobject {
 
 
             if (stem.hasPetal) {
-                //create a very small stem to hold the petal
                 //add a petal to this stem
+                this.petalMat.apply();
                 let petal = new MyPetal(this.scene, 0.5, 0, 1, 0);
                 this.scene.pushMatrix();
 
                 
                 //Stemside is used to randomly choose the side of the stem where the petal will be placed
-                this.scene.translate(0.5 * stem.stemSide, -20 * stem.height, offsetZ / 20);
+                //this.scene.translate(stem.stemSide, stem.height, offsetZ);
+                this.scene.translate(0.6* stem.stemSide, -4* stem.height, offsetZ / 20);
+
 
             
                 petal.display();
                 this.scene.popMatrix();
             }
 
+            
+
             // Draw the stem
             stem.display();
-
+            this.stemMat.apply();
             this.scene.popMatrix();
 
             // Update stemHeight with the height of this stem to position the next one correctly

@@ -4,17 +4,21 @@ import { CGFobject } from "../../lib/CGF.js";
 export class MyGarden extends CGFobject {
     constructor(scene, rows, cols, flowerSpacing) {
         super(scene);
+        this.scene = scene;
+        this.rows = rows;
+        this.cols = cols;
         this.flowers = [];
 
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < cols; j++) {
                 // Parâmetros da flor, temos de por random
 
-                //using javascript random fucntion, num petals should be a random number between 4 and 7
-                let numPetals = Math.floor(Math.random() * 4) + 4;
+                //using javascript random fucntion, num petals should be a random number between 5 and 8
+                let numPetals = Math.floor(Math.random() * 3) + 5;
 
-                //using javascript random function, flower radius should be a random number between 2 and 3
-                let flowerRadius = Math.random() * 1 + 2;
+                //using javascript random function, flower radius should be a random number between 2 and 4
+                let flowerRadius = Math.random() * 2 + 2;
+                
                 
                 //using javascript random function, receptacle radius should be a random number between 0.1 and 0.4
                 let receptacleRadius = Math.random() * 0.3 + 0.1;

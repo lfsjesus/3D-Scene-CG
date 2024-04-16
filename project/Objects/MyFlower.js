@@ -45,7 +45,7 @@ export class MyFlower extends CGFobject {
 
             this.stems.push(new MyStem(scene, 16, height, stemRadius, curvatureAngle));
 
-            //between each pair of stems, there should be added a new stem with a petal new MyStem(scene, 16, 0.1, radius, curvatureAngle, true)
+            //between each pair of stems, there should be added a new stem with a petal
             if (i < numStems - 1) {
                 let stemSide = Math.random() < 0.5 ? -1 : 1;
                 this.stems.push(new MyStem(scene, 16, 0.05, stemRadius, curvatureAngle, true, stemSide));
@@ -97,16 +97,18 @@ export class MyFlower extends CGFobject {
             //translate the stem to the correct height and offset
             this.scene.translate(0, stemHeight, offsetZ);
 
-
+            //rotate the stem by the curvature angle
             this.scene.rotate(stem.curvatureAngle, 1, 0, 0);
 
+
             if (stem.hasPetal) {
+                //create a very small stem to hold the petal
                 //add a petal to this stem
                 let petal = new MyPetal(this.scene, 0.5, 0, 1, 0);
                 this.scene.pushMatrix();
 
-                //get a random number which is either -1 or 1
-
+                
+                //Stemside is used to randomly choose the side of the stem where the petal will be placed
                 this.scene.translate(0.5 * stem.stemSide, -20 * stem.height, offsetZ / 20);
 
             
@@ -120,6 +122,8 @@ export class MyFlower extends CGFobject {
             this.scene.popMatrix();
 
             // Update stemHeight with the height of this stem to position the next one correctly
+            // Update offsetZ with the height of this stem to position the next one correctly
+
             stemHeight += stem.height * Math.cos(stem.curvatureAngle);
             offsetZ += stem.height * Math.sin(stem.curvatureAngle);
             lastCurvature = stem.curvatureAngle;
@@ -143,7 +147,7 @@ export class MyFlower extends CGFobject {
         this.petalMat.apply();
         for (let petal of this.petals) {
             this.scene.pushMatrix();
-            // Rotate the petal into position
+            // Rotate the petal into position;
             this.scene.rotate(petal.rotateAngle, 0, 0, 1);
             this.scene.rotate(petal.heartAngle, 1, 0, 0);
             petal.display();

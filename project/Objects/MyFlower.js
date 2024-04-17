@@ -53,8 +53,6 @@ export class MyFlower extends CGFobject {
 
 
         }
-        console.log(this.stems);
-
 
         //MATERIALS FOR THE FLOWER
 

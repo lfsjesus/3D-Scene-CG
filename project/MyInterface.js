@@ -24,7 +24,8 @@ export class MyInterface extends CGFinterface {
         this.gui.add(this.scene, 'scaleFactor', 0.1, 5).name('Scale Factor');
 
         // Slider para as dimensões do jardim
-        this.gui.add(this.scene, 'gardenRows', 1, 10).name('Garden Rows').onChange(this.scene.updateGarden.bind(this.scene));
+        //this.gui.add(this.scene, 'gardenRows', 1, 10).name('Garden Rows').onChange(this.scene.updateGarden.bind(this.scene));
+        this.gui.add(this.scene, 'gardenRows', 1, 10).name('Garden Rows');
         this.gui.add(this.scene, 'gardenCols', 1, 10).name('Garden Columns');
 
         // Slider para a distância entre as flores

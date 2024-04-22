@@ -101,7 +101,7 @@ export class MyFlower extends CGFobject {
 
             if (stem.hasPetal) {
                 //add a petal to this stem
-                this.petalMat.apply();
+                //this.petalMat.apply();
                 let petal = new MyPetal(this.scene, 0.5, 0, 1, 0);
                 this.scene.pushMatrix();
 
@@ -120,7 +120,7 @@ export class MyFlower extends CGFobject {
 
             // Draw the stem
             stem.display();
-            this.stemMat.apply();
+            //this.stemMat.apply();
             this.scene.popMatrix();
 
             // Update stemHeight with the height of this stem to position the next one correctly

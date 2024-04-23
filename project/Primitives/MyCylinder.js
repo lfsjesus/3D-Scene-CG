@@ -1,11 +1,12 @@
 import { CGFobject } from '../../lib/CGF.js';
 
 export class MyCylinder extends CGFobject {
-    constructor(scene, slices, height, radius) {
+    constructor(scene, slices, height, radius, material) {
         super(scene);
         this.slices = slices;
         this.height = height;
         this.radius = radius;
+        this.material = material;
         this.initBuffers();
     }
 
@@ -13,6 +14,7 @@ export class MyCylinder extends CGFobject {
         this.vertices = [];
         this.indices = [];
         this.normals = [];
+        this.texCoords = [];
 
         const angleIncrement = (2 * Math.PI) / this.slices;
 
@@ -34,6 +36,12 @@ export class MyCylinder extends CGFobject {
             this.normals.push(normalX, 0, normalZ);
             // Top normal
             this.normals.push(normalX, 0, normalZ);
+
+            // Texture coordinates
+            this.texCoords.push(slice / this.slices, 0);
+            this.texCoords.push(slice / this.slices, 1);
+
+            
         }
 
         // Define two triangles for each surface strip of the cylinder
@@ -53,5 +61,11 @@ export class MyCylinder extends CGFobject {
 
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
+    }
+
+    display() {
+        if (this.material !== undefined)
+            this.material.apply();
+        super.display();
     }
 }

@@ -6,7 +6,8 @@ import { MyPetal } from "./Objects/MyPetal.js";
 import { MyGarden } from "./Objects/MyGarden.js";
 import { MyRock } from "./Objects/MyRock.js";
 import { MyRockSet } from "./Objects/MyRockSet.js";
-
+import { MyBee } from "./Objects/MyBee.js";
+import { MyPaw } from "./Objects/MyPaw.js";
 
 /**
  * MyScene
@@ -19,8 +20,11 @@ export class MyScene extends CGFscene {
   init(application) {
     super.init(application);
 
+    this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+    this.gl.enable(this.gl.BLEND);
+
     this.initCameras();
-    this.initLights();
+    this.initLights();    
 
     //Background color
     this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -38,7 +42,9 @@ export class MyScene extends CGFscene {
     //this.rock = new MyRock(this, 16, 8, 1, 0.1);
     this.rockSet = new MyRockSet(this, 5);
   
+    this.bee = new MyBee(this);
 
+    this.paw = new MyPaw(this);
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.scaleFactor = 1;
@@ -58,7 +64,7 @@ export class MyScene extends CGFscene {
     this.lights[0].enable();
     this.lights[0].update();
 
-    this.lights[1].setPosition(5, 15, 5, 1);
+    this.lights[1].setPosition(5, -15, 5, 1);
     this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[1].enable();
     this.lights[1].update();
@@ -108,7 +114,7 @@ export class MyScene extends CGFscene {
 
 
     this.pushMatrix();
-    //this.panorama.display();
+    this.panorama.display();
     this.popMatrix();
 
     this.pushMatrix();
@@ -121,7 +127,11 @@ export class MyScene extends CGFscene {
 
 
     this.pushMatrix();
-    this.rockSet.display();
+    //this.rockSet.display();
+    this.popMatrix();
+
+    this.pushMatrix();
+    this.bee.display();
     this.popMatrix();
 
 

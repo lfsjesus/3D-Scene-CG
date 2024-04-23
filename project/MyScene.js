@@ -36,7 +36,7 @@ export class MyScene extends CGFscene {
     this.panorama = new MyPanorama(this, new CGFtexture(this, 'images/panorama.jpg'), 200);
     this.petal = new MyPetal(this, 4, 0, 0, 0);
     //this.rock = new MyRock(this, 16, 8, 1, 0.1);
-    this.rockSet = new MyRockSet(this, 5);
+    this.rockSet = new MyRockSet(this, 3);
   
 
     //Objects connected to MyInterface

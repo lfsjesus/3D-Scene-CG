@@ -39,10 +39,15 @@ export class MyRock extends CGFobject {
                 let nz = z / this.radius;
 
                 // Displace vertices for the rock effect
+
+                if (sliceIndex !== 0 && sliceIndex !== this.slicesCount) {
+
                 let displacement = (Math.random() - 0.5) * this.displacementFactor;
                 x += nx * displacement;
                 y += ny * displacement;
                 z += nz * displacement;
+
+                }
 
                 // Push displaced vertices and normals
                 this.vertices.push(x, y, z);

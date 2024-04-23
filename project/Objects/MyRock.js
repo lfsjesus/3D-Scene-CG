@@ -1,7 +1,7 @@
 import {CGFobject} from '../../lib/CGF.js';
 
 export class MyRock extends CGFobject {
-    constructor(scene, slices, stacks, radius, displacementFactor, invert = false, material = undefined) {
+    constructor(scene, slices, stacks, radius, displacementFactor, rotateAngle, scales ,invert = false, material = undefined) {
         super(scene);
         this.stacksCount = stacks * 2;
         this.slicesCount = slices;
@@ -9,6 +9,8 @@ export class MyRock extends CGFobject {
         this.displacementFactor = displacementFactor; // Added displacement factor
         this.invert = invert;
         this.material = material;
+        this.scales = scales;
+        this.rotateAngle = rotateAngle;
         this.initBuffers();
     }
 

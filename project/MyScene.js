@@ -36,7 +36,7 @@ export class MyScene extends CGFscene {
     this.panorama = new MyPanorama(this, new CGFtexture(this, 'images/panorama.jpg'), 200);
     this.petal = new MyPetal(this, 4, 0, 0, 0);
     //this.rock = new MyRock(this, 16, 8, 1, 0.1);
-    this.rockSet = new MyRockSet(this, 10, [0.5, 1.5], [-0.5, 0.5]);
+    this.rockSet = new MyRockSet(this, 5);
   
 
     //Objects connected to MyInterface
@@ -57,6 +57,11 @@ export class MyScene extends CGFscene {
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[0].enable();
     this.lights[0].update();
+
+    this.lights[1].setPosition(5, 15, 5, 1);
+    this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
+    this.lights[1].enable();
+    this.lights[1].update();
   }
   initCameras() {
     this.camera = new CGFcamera(

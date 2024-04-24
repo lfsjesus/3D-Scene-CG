@@ -128,6 +128,7 @@ export class MyScene extends CGFscene {
 
 
     this.pushMatrix();
+    this.rotate(Math.PI/2, 0, 1, 0);
     this.rockSet.display();
     this.popMatrix();
 

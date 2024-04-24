@@ -58,10 +58,10 @@ export class MyBee extends CGFobject {
         wingAppearance.setTexture(wingTexture);
         wingAppearance.setTextureWrap('REPEAT', 'REPEAT');
 
-        this.wing1 = new MyDisc(scene, 20, 0.4, wingAppearance);
-        this.wing2 = new MyDisc(scene, 20, 0.4, wingAppearance);
-        this.wing3 = new MyDisc(scene, 20, 0.4, wingAppearance);
-        this.wing4 = new MyDisc(scene, 20, 0.4, wingAppearance);
+        this.wing1 = new MyDisc(scene, 20, 0.5, wingAppearance);
+        this.wing2 = new MyDisc(scene, 20, 0.5, wingAppearance);
+        this.wing3 = new MyDisc(scene, 20, 0.5, wingAppearance);
+        this.wing4 = new MyDisc(scene, 20, 0.5, wingAppearance);
 
         this.stinger = new MyCone(scene, 16, 8, pawAppearance);
         
@@ -205,7 +205,7 @@ export class MyBee extends CGFobject {
         this.scene.rotate(-Math.PI/2 - Math.PI/8, 1, 0, 0);
         this.scene.rotate(Math.PI/3, 0, 0, 1);
         this.scene.rotate(Math.PI/7, 0, 1, 0);
-        this.scene.scale(0.5, 1.5, 0.5);
+        this.scene.scale(0.5, 1.6, 0.5);
         this.wing1.display();
 
         this.scene.popMatrix();
@@ -215,7 +215,7 @@ export class MyBee extends CGFobject {
         this.scene.rotate(-Math.PI/2 + Math.PI/8, 1, 0, 0);
         this.scene.rotate(-Math.PI/3, 0, 0, 1);
         this.scene.rotate(Math.PI/7, 0, 1, 0);
-        this.scene.scale(0.5, 1.5, 0.5);
+        this.scene.scale(0.5, 1.6, 0.5);
         this.wing2.display();
 
         this.scene.popMatrix(); 
@@ -224,7 +224,7 @@ export class MyBee extends CGFobject {
         this.scene.translate(1.5, 0.1, 0.7);
         this.scene.rotate(-Math.PI/2 - Math.PI/8, 1, 0, 0);
         this.scene.rotate(Math.PI/3, 0, 0, 1);
-        this.scene.scale(0.5, 1.5, 0.5);
+        this.scene.scale(0.5, 1.6, 0.5);
         this.wing3.display();
 
         this.scene.popMatrix();
@@ -233,7 +233,7 @@ export class MyBee extends CGFobject {
         this.scene.translate(1.5, 0.1, -0.7);
         this.scene.rotate(-Math.PI/2 + Math.PI/8, 1, 0, 0);
         this.scene.rotate(-Math.PI/3, 0, 0, 1);
-        this.scene.scale(0.5, 1.5, 0.5);
+        this.scene.scale(0.5, 1.6, 0.5);
         this.wing4.display();
 
         this.scene.popMatrix(); 

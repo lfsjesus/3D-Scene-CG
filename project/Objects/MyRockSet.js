@@ -8,7 +8,7 @@ export class MyRockSet extends CGFobject {
         this.layers = layers;
         
         this.rocks = [];
-        this.rockSpacing = 3;
+        this.rockSpacing = 1.8;
         this.rockHeight = 1;
 
         // Textures
@@ -41,7 +41,7 @@ export class MyRockSet extends CGFobject {
                 let displacementFactor = Math.random() * 0.1 + 0.1; // displacementFactor should be a random number between 0.1 and 0.2
 
                 // Random scaling factors for non-uniform scaling
-                let scaleX = Math.random() * 0.2 + 1.6; // scaleX will give [1.6, 1.8[
+                let scaleX = Math.random() * 0.7 + 1.1; // scaleX will give [1.1, 1.8[
                 let scaleY = Math.random() * 0.4 + 0.5; // the scaleY should be [0.5, 0.9[
                 let scaleZ = Math.random() * 0.5 + 0.5; // the scaleZ [0.5, 1[
 
@@ -51,7 +51,7 @@ export class MyRockSet extends CGFobject {
                 // Create rock appearance
                 let rockAppearance = new CGFappearance(this.scene);
                 rockAppearance.setTexture(textures[Math.floor(Math.random() * textures.length)]);
-                rockAppearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
+                rockAppearance.setTextureWrap('REPEAT', 'REPEAT');
 
                 // Create and store the new rock
                 let rock = new MyRock(this.scene, 16, 16, radius, displacementFactor, rotateAngle, [scaleX, scaleY, scaleZ], 0, rockAppearance);
@@ -72,7 +72,7 @@ export class MyRockSet extends CGFobject {
     display() {
         this.scene.pushMatrix();
 
-        this.scene.translate(this.layers/2, 0, this.layers/2);
+        this.scene.translate(this.layers/3, 0, this.layers/3);
 
         for (let item of this.rocks) {
             this.scene.pushMatrix();

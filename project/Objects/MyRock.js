@@ -23,6 +23,8 @@ export class MyRock extends CGFobject {
         const stackAngleIncrement = Math.PI / this.stacksCount;
         const sliceAngleIncrement = (2 * Math.PI) / this.slicesCount;
 
+        let startS = Math.random();
+
         for (let stackIndex = 0; stackIndex <= this.stacksCount; stackIndex++) {
             const stackAngle = stackIndex * stackAngleIncrement;
             for (let sliceIndex = 0; sliceIndex <= this.slicesCount; sliceIndex++) {
@@ -54,7 +56,7 @@ export class MyRock extends CGFobject {
                 this.normals.push(nx, ny, nz);
                 
                 // Texture coordinates
-                let s = sliceIndex / this.slicesCount;
+                let s = sliceIndex / this.slicesCount + startS;
                 let t = stackIndex / this.stacksCount;
                 this.texCoords.push(s, t);
 

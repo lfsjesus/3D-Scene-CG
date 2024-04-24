@@ -1,5 +1,6 @@
 import { CGFobject } from "../../lib/CGF.js";
 import { CGFappearance } from "../../lib/CGF.js";
+import { CGFtexture } from "../../lib/CGF.js";
 import { MyStem } from "./MyStem.js";
 import { MyPetal } from "./MyPetal.js";
 import { MyReceptacle } from "./MyReceptacle.js"
@@ -16,7 +17,14 @@ export class MyFlower extends CGFobject {
         this.recepColor = recepColor;
         this.stemColor = stemColor;
         this.leafColor = leafColor;
-        this.receptacle = new MyReceptacle(scene, 16, 8, receptacleRadius);
+
+        let recepTexture = new CGFtexture(this.scene, 'images/recep.jpg');
+        let recepMaterial = new CGFappearance(this.scene);
+        recepMaterial.setTexture(recepTexture);
+        recepMaterial.setTextureWrap('REPEAT', 'REPEAT');
+
+
+        this.receptacle = new MyReceptacle(scene, 16, 8, receptacleRadius, recepMaterial);
 
         // array of petals with angle increment of 2*PI/numPetals
         this.petals = [];
@@ -27,7 +35,9 @@ export class MyFlower extends CGFobject {
 
             let curvatureAngle = Math.random() * Math.PI / 2 - Math.PI / 4;
 
-            let heartAngle = Math.random() * Math.PI / 4 - Math.PI / 8;
+            //heatAngle should be [0, PI/8]
+            let heartAngle = Math.random() * Math.PI / 8;
+           
 
             this.petals.push(new MyPetal(scene, flowerRadius, rotateAngle, curvatureAngle, heartAngle));
         }
@@ -62,11 +72,6 @@ export class MyFlower extends CGFobject {
         this.stemMat.setSpecular(stemColor[0], stemColor[1], stemColor[2], stemColor[3]);
         this.stemMat.setShininess(10.0);
 
-        this.recepMat = new CGFappearance(this.scene);
-        this.recepMat.setAmbient(recepColor[0], recepColor[1], recepColor[2], recepColor[3]);
-        this.recepMat.setDiffuse(recepColor[0], recepColor[1], recepColor[2], recepColor[3]);
-        this.recepMat.setSpecular(recepColor[0], recepColor[1], recepColor[2], recepColor[3]);
-        this.recepMat.setShininess(10.0);
 
         this.petalMat = new CGFappearance(this.scene);
         this.petalMat.setAmbient(petalColor[0], petalColor[1], petalColor[2], petalColor[3]);
@@ -134,17 +139,21 @@ export class MyFlower extends CGFobject {
         this.scene.popMatrix();
 
         // Now, translate everything up by the total height of the stems
-        this.scene.pushMatrix();
         this.scene.translate(0, stemHeight, offsetZ);
-        this.scene.rotate(lastCurvature + 2, 1, 0, 0);
+        this.scene.rotate(lastCurvature + Math.PI/2, 1, 0, 0);
 
+
+        
         // MyReceptacle
-        this.recepMat.apply();
+        this.scene.pushMatrix();
+        this.scene.translate(0, 0, -0.01);
+        this.scene.rotate(Math.PI, 1, 0, 0);
         this.receptacle.display();
+        this.scene.popMatrix();
 
 
 
-
+        this.scene.pushMatrix();
         // Add petals around the top of the stem
         this.petalMat.apply();
         for (let petal of this.petals) {

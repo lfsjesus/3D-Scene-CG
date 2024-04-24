@@ -119,7 +119,7 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
     this.pushMatrix();
-    //this.garden.display();
+    this.garden.display();
     this.popMatrix();
 
     this.pushMatrix();
@@ -128,12 +128,12 @@ export class MyScene extends CGFscene {
 
 
     this.pushMatrix();
-    this.rockSet.display();
+    //this.rockSet.display();
     this.popMatrix();
 
     this.pushMatrix();
     this.translate(0, 5, 0);
-    this.bee.display();
+    //this.bee.display();
     this.popMatrix();
 
 

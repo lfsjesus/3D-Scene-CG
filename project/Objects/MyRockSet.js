@@ -8,8 +8,8 @@ export class MyRockSet extends CGFobject {
         this.layers = layers;
         
         this.rocks = [];
-        this.rockSpacing = 3; // Adjust the spacing between the rocks if needed
-        this.rockHeight = 1; // Adjust the height of the rocks if needed
+        this.rockSpacing = 3;
+        this.rockHeight = 1;
 
         // Textures
         let textures = [

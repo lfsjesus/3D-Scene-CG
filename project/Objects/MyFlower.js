@@ -33,14 +33,31 @@ export class MyFlower extends CGFobject {
 
             let rotateAngle = 2 * Math.PI * i / numPetals;
 
-            let curvatureAngle = Math.random() * Math.PI / 2 - Math.PI / 4;
-
-            //heatAngle should be [0, PI/8]
-            let heartAngle = Math.random() * Math.PI / 8;
-           
+            //curvatureAngle should be [PI/8, PI/4]
+            let curvatureAngle = Math.random() * Math.PI / 4 + Math.PI / 8;
+        
+            //heatAngle should be [- PI/4, - PI/6]
+            let heartAngle = Math.random() * Math.PI / 6 - Math.PI / 4;
 
             this.petals.push(new MyPetal(scene, flowerRadius, rotateAngle, curvatureAngle, heartAngle));
         }
+
+        for (let i = 0; i < numPetals; i++) {
+
+            let rotateAngle = 2 * Math.PI * i / numPetals;
+
+            rotateAngle += Math.PI / numPetals;
+
+            //curvatureAngle should be [PI/8, PI/4]
+            let curvatureAngle = Math.random() * Math.PI / 4 + Math.PI / 8;
+        
+            //heatAngle should be [-PI/12, -PI /16]
+            let heartAngle = Math.random() * Math.PI / 24 - Math.PI / 12;
+
+            this.petals.push(new MyPetal(scene, flowerRadius, rotateAngle, curvatureAngle, heartAngle));
+        }
+
+        
 
         this.stems = [];
 
@@ -146,7 +163,7 @@ export class MyFlower extends CGFobject {
         
         // MyReceptacle
         this.scene.pushMatrix();
-        this.scene.translate(0, 0, -0.01);
+        this.scene.translate(0, 0, -0.15);
         this.scene.rotate(Math.PI, 1, 0, 0);
         this.receptacle.display();
         this.scene.popMatrix();

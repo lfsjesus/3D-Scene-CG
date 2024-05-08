@@ -4,7 +4,6 @@ import { MyPanorama } from "./Objects/MyPanorama.js";
 import { MyFlower } from "./Objects/MyFlower.js";
 import { MyPetal } from "./Objects/MyPetal.js";
 import { MyGarden } from "./Objects/MyGarden.js";
-import { MyRock } from "./Objects/MyRock.js";
 import { MyRockSet } from "./Objects/MyRockSet.js";
 import { MyBee } from "./Objects/MyBee.js";
 import { MyPaw } from "./Objects/MyPaw.js";
@@ -39,9 +38,8 @@ export class MyScene extends CGFscene {
     this.plane = new MyPlane(this, 30);
     this.panorama = new MyPanorama(this, new CGFtexture(this, 'images/panorama.jpg'), 200);
     this.petal = new MyPetal(this, 4, 0, 0, 0);
-    //this.rock = new MyRock(this, 16, 8, 1, 0.1);
     this.rockSet = new MyRockSet(this, 3);
-  
+    this.flower = new MyFlower(this, 6, 5, 0.5, 0.2, 3, [1.0, 0.0, 0.5, 1.0], [0.0, 1.0, 0.0, 1.0], [0.0, 1.0, 0.0, 1.0], [0.0, 1.0, 0.0, 1.0]); 
     this.bee = new MyBee(this);
 
     this.paw = new MyPaw(this);
@@ -113,6 +111,9 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
 
+    this.pushMatrix();
+    //this.flower.display();
+    this.popMatrix();
 
     this.pushMatrix();
     this.panorama.display();

@@ -13,8 +13,8 @@ export class MyGarden extends CGFobject {
             for (let j = 0; j < cols; j++) {
                 // Parâmetros da flor, temos de por random
 
-                //using javascript random fucntion, num petals should be a random number between 6 and 9
-                let numPetals = Math.floor(Math.random() * 3) + 6;
+                //using javascript random fucntion, num petals should be a random number between 3 and 6
+                let numPetals = Math.floor(Math.random() * 3) + 3;
 
                 //using javascript random function, flower radius should be a random number between 1,5 and 3,5
                 let flowerRadius = Math.random() * 2 + 1.5;

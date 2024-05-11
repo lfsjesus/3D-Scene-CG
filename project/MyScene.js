@@ -7,6 +7,7 @@ import { MyGarden } from "./Objects/MyGarden.js";
 import { MyRockSet } from "./Objects/MyRockSet.js";
 import { MyBee } from "./Objects/MyBee.js";
 import { MyPaw } from "./Objects/MyPaw.js";
+import { MyPollen } from "./Objects/MyPollen.js";
 
 /**
  * MyScene
@@ -41,8 +42,8 @@ export class MyScene extends CGFscene {
     this.rockSet = new MyRockSet(this, 3);
     this.flower = new MyFlower(this, 6, 5, 0.5, 0.2, 3, [1.0, 0.0, 0.5, 1.0], [0.0, 1.0, 0.0, 1.0], [0.0, 1.0, 0.0, 1.0], [0.0, 1.0, 0.0, 1.0]); 
     this.bee = new MyBee(this);
+    this.pollen = new MyPollen(this, 16, 8, 0.5);
 
-    this.paw = new MyPaw(this);
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.scaleFactor = 1;
@@ -154,7 +155,7 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
     this.pushMatrix();
-    //this.garden.display();
+    this.garden.display();
     this.popMatrix();
 
     this.pushMatrix();
@@ -170,6 +171,10 @@ export class MyScene extends CGFscene {
     this.translate(0, 5, 0);
     this.scale(this.beeScale, this.beeScale, this.beeScale);
     this.bee.display();
+    this.popMatrix();
+
+    this.pushMatrix();
+    this.pollen.display();
     this.popMatrix();
 
 

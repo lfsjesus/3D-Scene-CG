@@ -4,6 +4,7 @@ import { CGFtexture } from "../../lib/CGF.js";
 import { MyStem } from "./MyStem.js";
 import { MyPetal } from "./MyPetal.js";
 import { MyReceptacle } from "./MyReceptacle.js"
+import { MyPollen } from "./MyPollen.js";
 
 export class MyFlower extends CGFobject {
     constructor(scene, numPetals, flowerRadius, receptacleRadius, stemRadius, numStems, petalColor, recepColor, stemColor, leafColor) {
@@ -18,6 +19,8 @@ export class MyFlower extends CGFobject {
         this.stemColor = stemColor;
         this.leafColor = leafColor;
 
+        
+
         let recepTexture = new CGFtexture(this.scene, 'images/recep.jpg');
         let recepMaterial = new CGFappearance(this.scene);
         recepMaterial.setTexture(recepTexture);
@@ -25,6 +28,8 @@ export class MyFlower extends CGFobject {
 
 
         this.receptacle = new MyReceptacle(scene, 16, 8, receptacleRadius, recepMaterial);
+
+        this.pollen = new MyPollen(scene, 16, 8, stemRadius * 2);
 
         // array of petals with angle increment of 2*PI/numPetals
         this.petals = [];
@@ -157,17 +162,24 @@ export class MyFlower extends CGFobject {
 
         // Now, translate everything up by the total height of the stems
         this.scene.translate(0, stemHeight, offsetZ);
+        
+        // MyPollen
+        this.scene.pushMatrix();
+        this.scene.translate(0, 0.15, 0);
+        this.pollen.display();
+        this.scene.popMatrix();
+
         this.scene.rotate(lastCurvature + Math.PI/2, 1, 0, 0);
 
 
         
         // MyReceptacle
         this.scene.pushMatrix();
-        this.scene.translate(0, 0, -0.15);
         this.scene.rotate(Math.PI, 1, 0, 0);
         this.receptacle.display();
         this.scene.popMatrix();
 
+        
 
 
         this.scene.pushMatrix();

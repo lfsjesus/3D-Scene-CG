@@ -18,7 +18,7 @@ export class MyBee extends CGFobject {
         this.orientation = 0; // Orientation angle around the YY-axis (in radians)
         this.velocity = { x: 0, y: 0, z: 0 }; // Velocity vector
 
-
+        this.maxSpeed = 20; // Maximum speed in units per second
 
         let headTexture = new CGFtexture(scene, 'images/bee_head.png');
         let headAppearance = new CGFappearance(scene);
@@ -120,6 +120,15 @@ export class MyBee extends CGFobject {
         let delta_t = (t - this.lastUpdateTime) / 1000.0;
         this.lastUpdateTime = t;
 
+        // Apply deceleration
+        let speed = Math.sqrt(this.velocity.x ** 2 + this.velocity.z ** 2);
+        if (speed > 0) {
+            const deceleration = 1; // Deceleration factor per second
+            speed = Math.max(0, speed - deceleration * delta_t);
+            this.velocity.x = Math.cos(this.orientation) * speed;
+            this.velocity.z = Math.sin(this.orientation) * speed;
+        }
+
         // Update position based on velocity
         this.position.x += this.velocity.x * delta_t;
         this.position.y += this.velocity.y * delta_t;
@@ -152,6 +161,7 @@ export class MyBee extends CGFobject {
     accelerate(increment) {
         // Adjust the speed by modifying the magnitude of the velocity vector
         let speed = Math.sqrt(this.velocity.x ** 2 + this.velocity.z ** 2) + increment;
+        speed = Math.min(speed, this.maxSpeed); // Clamp speed to the maximum speed
         this.velocity.x = Math.cos(this.orientation) * speed;
         this.velocity.z = Math.sin(this.orientation) * speed;
     }

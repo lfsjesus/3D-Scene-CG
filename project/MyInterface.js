@@ -30,6 +30,9 @@ export class MyInterface extends CGFinterface {
 
         // Slider para a distância entre as flores
         this.gui.add(this.scene, 'flowerSpacing', 1, 10).name('Flower Spacing');
+
+        this.gui.add(this.scene, 'speedFactor', 0.1, 3).name('Speed Factor');
+
         
         this.initKeys();
 

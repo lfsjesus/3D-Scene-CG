@@ -49,6 +49,7 @@ export class MyScene extends CGFscene {
     this.gardenRows = 5; // número de linhas no jardim
     this.gardenCols = 5; // número de colunas no jardim
     this.flowerSpacing = 7; // distância entre as flores
+    this.speedFactor = 0.5;
 
     this.garden = new MyGarden(this, this.gardenRows, this.gardenCols, this.flowerSpacing);
 
@@ -66,16 +67,16 @@ export class MyScene extends CGFscene {
 
   checkKeys() {
     if (this.gui.isKeyPressed("KeyW")) {
-        this.bee.accelerate(0.1);
+        this.bee.accelerate(this.speedFactor);
     }
     if (this.gui.isKeyPressed("KeyS")) {
-        this.bee.accelerate(-0.1);
+        this.bee.accelerate(-this.speedFactor);
     }
     if (this.gui.isKeyPressed("KeyA")) {
-        this.bee.turn(-0.1);
+        this.bee.turn(-this.speedFactor * 0.5);
     }
     if (this.gui.isKeyPressed("KeyD")) {
-        this.bee.turn(0.1);
+        this.bee.turn(this.speedFactor * 0.5);
     }
     if (this.gui.isKeyPressed("KeyR")) {
         // Reset bee's position, orientation, and velocity

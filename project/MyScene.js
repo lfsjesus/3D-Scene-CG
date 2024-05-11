@@ -50,6 +50,7 @@ export class MyScene extends CGFscene {
     this.gardenCols = 5; // número de colunas no jardim
     this.flowerSpacing = 7; // distância entre as flores
     this.speedFactor = 0.5;
+    this.beeScale = 1;
 
     this.garden = new MyGarden(this, this.gardenRows, this.gardenCols, this.flowerSpacing);
 
@@ -167,6 +168,7 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
     this.translate(0, 5, 0);
+    this.scale(this.beeScale, this.beeScale, this.beeScale);
     this.bee.display();
     this.popMatrix();
 

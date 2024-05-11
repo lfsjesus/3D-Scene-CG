@@ -13,6 +13,12 @@ export class MyBee extends CGFobject {
 
         this.initAnimationProperties();
 
+         // Bee's initial position and orientation
+        this.position = { x: 0, y: 0, z: 0 }; // Position in 3D space
+        this.orientation = 0; // Orientation angle around the YY-axis (in radians)
+        this.velocity = { x: 0, y: 0, z: 0 }; // Velocity vector
+
+
 
         let headTexture = new CGFtexture(scene, 'images/bee_head.png');
         let headAppearance = new CGFappearance(scene);
@@ -78,8 +84,22 @@ export class MyBee extends CGFobject {
         this.initBuffers();
     }
 
+
+    initBuffers() {
+        this.vertices = [];
+        this.indices = [];
+        this.normals = [];
+        this.texCoords = [];
+
+
+
+        this.primitiveType = this.scene.gl.TRIANGLES;
+        this.initGLBuffers();
+    }
+
     initAnimationProperties() {
 
+        this.lastUpdateTime = 0;
         //bee oscillation animation
         this.yPosition = 0;  // Initial Y position
         this.animTime = 0;   // Track animation time
@@ -95,6 +115,18 @@ export class MyBee extends CGFobject {
 
     // Update the animation based on the time elapsed, t is the time in milliseconds
     update(t) {
+
+        // Calculate elapsed time in seconds
+        let delta_t = (t - this.lastUpdateTime) / 1000.0;
+        this.lastUpdateTime = t;
+
+        // Update position based on velocity
+        this.position.x += this.velocity.x * delta_t;
+        this.position.y += this.velocity.y * delta_t;
+        this.position.z += this.velocity.z * delta_t;
+
+
+
         //bee oscillation animation
         this.animTime = t % this.oscillationPeriod;
         const fraction = this.animTime / this.oscillationPeriod;
@@ -107,26 +139,40 @@ export class MyBee extends CGFobject {
     
     }
 
-
-    initBuffers() {
-        this.vertices = [];
-        this.indices = [];
-        this.normals = [];
-        this.texCoords = [];
-
-
-
-        this.primitiveType = this.scene.gl.TRIANGLES;
-        this.initGLBuffers();
+    turn(angle) {
+        let speed = Math.sqrt(this.velocity.x ** 2 + this.velocity.z ** 2);
+        // Adjust orientation by the given angle (in radians)
+        this.orientation += angle;
+    
+        // Update the direction component of the velocity vector
+        this.velocity.x = Math.cos(this.orientation) * speed;
+        this.velocity.z = Math.sin(this.orientation) * speed;
     }
+    
+    accelerate(increment) {
+        // Adjust the speed by modifying the magnitude of the velocity vector
+        let speed = Math.sqrt(this.velocity.x ** 2 + this.velocity.z ** 2) + increment;
+        this.velocity.x = Math.cos(this.orientation) * speed;
+        this.velocity.z = Math.sin(this.orientation) * speed;
+    }
+    
 
-    display() {
+    display() { 
 
         this.scene.pushMatrix();
+
+        // Translate to current position and rotate
+        this.scene.translate(this.position.x, this.position.y, this.position.z);
+        this.scene.rotate(-this.orientation, 0, 1, 0);
+
 
         // Apply vertical oscillation from the update method
         this.scene.translate(0, this.yPosition, 0);
 
+        this.scene.pushMatrix();
+
+        //rotate 180 degrees to face the correct direction
+        this.scene.rotate(Math.PI, 0, 1, 0);
 
         this.scene.pushMatrix();
         this.scene.rotate(Math.PI/8, 0, 0, 1);
@@ -273,7 +319,6 @@ export class MyBee extends CGFobject {
 
         this.scene.pushMatrix();
         this.scene.rotate(-this.wingAngle * Math.PI / 180, 1, 0, 0); // Opposite rotation for other wing
-
         this.scene.translate(1.5, 0.1, -0.7);
         this.scene.rotate(-Math.PI/2 + Math.PI/8, 1, 0, 0);
         this.scene.rotate(-Math.PI/3, 0, 0, 1);
@@ -281,6 +326,8 @@ export class MyBee extends CGFobject {
         this.wing4.display();
 
         this.scene.popMatrix(); 
+
+        this.scene.popMatrix(); //180 degrees rotation
 
 
         this.scene.popMatrix();

@@ -60,7 +60,32 @@ export class MyScene extends CGFscene {
 
   update(t) {
     this.bee.update(t);
+    this.checkKeys();  // Check key states and react
+
   }
+
+  checkKeys() {
+    if (this.gui.isKeyPressed("KeyW")) {
+        this.bee.accelerate(0.1);
+    }
+    if (this.gui.isKeyPressed("KeyS")) {
+        this.bee.accelerate(-0.1);
+    }
+    if (this.gui.isKeyPressed("KeyA")) {
+        this.bee.turn(-0.1);
+    }
+    if (this.gui.isKeyPressed("KeyD")) {
+        this.bee.turn(0.1);
+    }
+    if (this.gui.isKeyPressed("KeyR")) {
+        // Reset bee's position, orientation, and velocity
+        this.bee.position = { x: 0, y: 0, z: 0 };
+        this.bee.orientation = 0;
+        this.bee.velocity = { x: 0, y: 0, z: 0 };
+    }
+}
+
+
 
 
   initLights() {

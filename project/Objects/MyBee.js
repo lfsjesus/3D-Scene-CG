@@ -11,6 +11,9 @@ export class MyBee extends CGFobject {
     constructor(scene) {
         super(scene);
 
+        this.initAnimationProperties();
+
+
         let headTexture = new CGFtexture(scene, 'images/bee_head.png');
         let headAppearance = new CGFappearance(scene);
         headAppearance.setTexture(headTexture);
@@ -75,6 +78,36 @@ export class MyBee extends CGFobject {
         this.initBuffers();
     }
 
+    initAnimationProperties() {
+
+        //bee oscillation animation
+        this.yPosition = 0;  // Initial Y position
+        this.animTime = 0;   // Track animation time
+        this.oscillationAmplitude = 0.3; // Amplitude of the up and down oscillation
+        this.oscillationPeriod = 1000; // One cycle every 1000 milliseconds (1 second)
+        
+        //wing flapping animation
+        this.wingAngle = 0;  // Initial angle for wings
+        this.flapAmplitude = 20; // Degrees: max rotation angle of the wings
+        this.flapPeriod = 200; // Flapping cycle every 200 milliseconds
+    }
+
+
+    // Update the animation based on the time elapsed, t is the time in milliseconds
+    update(t) {
+        //bee oscillation animation
+        this.animTime = t % this.oscillationPeriod;
+        const fraction = this.animTime / this.oscillationPeriod;
+        this.yPosition = this.oscillationAmplitude * Math.sin(2 * Math.PI * fraction);
+    
+        //wing flapping animation
+        const flapTime = t % this.flapPeriod;
+        const flapFraction = flapTime / this.flapPeriod;
+        this.wingAngle = this.flapAmplitude * Math.sin(2 * Math.PI * flapFraction);
+    
+    }
+
+
     initBuffers() {
         this.vertices = [];
         this.indices = [];
@@ -90,7 +123,12 @@ export class MyBee extends CGFobject {
     display() {
 
         this.scene.pushMatrix();
-        this.scene.translate(0, -0.1, 0);
+
+        // Apply vertical oscillation from the update method
+        this.scene.translate(0, this.yPosition, 0);
+
+
+        this.scene.pushMatrix();
         this.scene.rotate(Math.PI/8, 0, 0, 1);
         this.scene.scale(1, 0.8, 0.7);
 
@@ -201,16 +239,19 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
+        this.scene.rotate(this.wingAngle * Math.PI / 180, 1, 0, 0); // Rotate around x-axis
         this.scene.translate(1, 0.3, 0.6);
         this.scene.rotate(-Math.PI/2 - Math.PI/8, 1, 0, 0);
         this.scene.rotate(Math.PI/3, 0, 0, 1);
         this.scene.rotate(Math.PI/7, 0, 1, 0);
+        
         this.scene.scale(0.5, 1.6, 0.5);
         this.wing1.display();
 
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
+        this.scene.rotate(-this.wingAngle * Math.PI / 180, 1, 0, 0); // Opposite rotation for other wing
         this.scene.translate(1, 0.3, -0.6);
         this.scene.rotate(-Math.PI/2 + Math.PI/8, 1, 0, 0);
         this.scene.rotate(-Math.PI/3, 0, 0, 1);
@@ -221,6 +262,7 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix(); 
         
         this.scene.pushMatrix();
+        this.scene.rotate(this.wingAngle * Math.PI / 180, 1, 0, 0); // Rotate around x-axis
         this.scene.translate(1.5, 0.1, 0.7);
         this.scene.rotate(-Math.PI/2 - Math.PI/8, 1, 0, 0);
         this.scene.rotate(Math.PI/3, 0, 0, 1);
@@ -230,6 +272,8 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
+        this.scene.rotate(-this.wingAngle * Math.PI / 180, 1, 0, 0); // Opposite rotation for other wing
+
         this.scene.translate(1.5, 0.1, -0.7);
         this.scene.rotate(-Math.PI/2 + Math.PI/8, 1, 0, 0);
         this.scene.rotate(-Math.PI/3, 0, 0, 1);
@@ -239,6 +283,6 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix(); 
 
 
-
+        this.scene.popMatrix();
     }
 }

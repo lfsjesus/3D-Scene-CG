@@ -54,8 +54,15 @@ export class MyScene extends CGFscene {
 
     this.enableTextures(true);
 
-
+    //bee animation
+    this.setUpdatePeriod(50); // **at least** 50 ms between animations
   }
+
+  update(t) {
+    this.bee.update(t);
+  }
+
+
   initLights() {
     this.lights[0].setPosition(15, 0, 5, 1);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
@@ -120,7 +127,7 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
     this.pushMatrix();
-    this.garden.display();
+    //this.garden.display();
     this.popMatrix();
 
     this.pushMatrix();
@@ -134,7 +141,7 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
     this.translate(0, 5, 0);
-    //this.bee.display();
+    this.bee.display();
     this.popMatrix();
 
 

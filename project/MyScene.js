@@ -49,7 +49,7 @@ export class MyScene extends CGFscene {
     this.scaleFactor = 1;
     this.gardenRows = 5; // número de linhas no jardim
     this.gardenCols = 5; // número de colunas no jardim
-    this.flowerSpacing = 7; // distância entre as flores
+    this.flowerSpacing = 7 // distância entre as flores
     this.speedFactor = 0.5;
     this.beeScale = 1;
 

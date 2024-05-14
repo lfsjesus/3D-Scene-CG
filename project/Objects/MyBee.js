@@ -18,68 +18,9 @@ export class MyBee extends CGFobject {
         this.orientation = 0; // Orientation angle around the YY-axis (in radians)
         this.velocity = { x: 0, y: 0, z: 0 }; // Velocity vector
 
-        this.maxSpeed = 20; // Maximum speed in units per second
+        this.maxSpeed = 25; // Maximum speed in units per second
 
-        let headTexture = new CGFtexture(scene, 'images/bee_head.png');
-        let headAppearance = new CGFappearance(scene);
-        headAppearance.setTexture(headTexture);
-        headAppearance.setTextureWrap('REPEAT', 'REPEAT');
-    
-        this.head = new MySphere(scene, 16, 8, 0.5, false, headAppearance);
-
-        let pawTexture = new CGFtexture(scene, 'images/grey_hair.png');
-        let pawAppearance = new CGFappearance(scene);
-        pawAppearance.setTexture(pawTexture);
-        pawAppearance.setTextureWrap('REPEAT', 'REPEAT');
-
-        this.antenna1 = new MyCylinder(scene, 16, 5, 0.1, pawAppearance);
-        this.antenna2 = new MyCylinder(scene, 16, 5, 0.1, pawAppearance);
-
-        let eyeTexture = new CGFtexture(scene, 'images/bee_eye.png');
-        let eyeAppearance = new CGFappearance(scene);
-        eyeAppearance.setTexture(eyeTexture);
-        eyeAppearance.setTextureWrap('REPEAT', 'REPEAT');
-
-        this.eye1 = new MySphere(scene, 16, 8, 0.1, false, eyeAppearance);
-        this.eye2 = new MySphere(scene, 16, 8, 0.1, false, eyeAppearance);
-
-        let neckTexture = new CGFtexture(scene, 'images/bee_neck.jpg');
-        let neckAppearance = new CGFappearance(scene);
-        neckAppearance.setTexture(neckTexture);
-        neckAppearance.setTextureWrap('REPEAT', 'REPEAT');
-
-        this.neck = new MySphere(scene, 16, 8, 0.5, false, neckAppearance);
-
-        let bodyTexture = new CGFtexture(scene, 'images/bee_body.jpg');
-        let bodyAppearance = new CGFappearance(scene);
-        bodyAppearance.setTexture(bodyTexture);
-        bodyAppearance.setTextureWrap('REPEAT', 'REPEAT');
-
-        this.body = new MySphere(scene, 16, 8, 0.5, false, bodyAppearance);
-
-        let wingTexture = new CGFtexture(scene, 'images/bee_wing.png');
-        let wingAppearance = new CGFappearance(scene);
-        wingAppearance.setAmbient(0.5, 0.5, 0.4, 0.1);
-        wingAppearance.setDiffuse(0.7, 0.7, 0.6, 0.1);
-        wingAppearance.setSpecular(0.8, 0.8, 0.7, 0.1);
-        wingAppearance.setEmission(0.9, 0.9, 0.6, 0.1);
-        
-        wingAppearance.setTexture(wingTexture);
-        wingAppearance.setTextureWrap('REPEAT', 'REPEAT');
-
-        this.wing1 = new MyDisc(scene, 20, 0.5, wingAppearance);
-        this.wing2 = new MyDisc(scene, 20, 0.5, wingAppearance);
-        this.wing3 = new MyDisc(scene, 20, 0.5, wingAppearance);
-        this.wing4 = new MyDisc(scene, 20, 0.5, wingAppearance);
-
-        this.stinger = new MyCone(scene, 16, 8, pawAppearance);
-        
-        this.paw1 = new MyPaw(scene, pawAppearance);
-        this.paw2 = new MyPaw(scene, pawAppearance);
-        this.paw3 = new MyPaw(scene, pawAppearance);
-        this.paw4 = new MyPaw(scene, pawAppearance);
-        this.paw5 = new MyPaw(scene, pawAppearance);
-        this.paw6 = new MyPaw(scene, pawAppearance);
+        this.initMaterials(scene);
 
         this.initBuffers();
     }
@@ -166,6 +107,61 @@ export class MyBee extends CGFobject {
         this.velocity.z = Math.sin(this.orientation) * speed;
     }
     
+    initMaterials(scene) {
+        let headTexture = new CGFtexture(scene, 'images/bee_head.png');
+        let headAppearance = new CGFappearance(scene);
+        headAppearance.setTexture(headTexture);
+        headAppearance.setTextureWrap('REPEAT', 'REPEAT');
+        this.head = new MySphere(scene, 16, 8, 0.5, false, headAppearance);
+    
+        let pawTexture = new CGFtexture(scene, 'images/grey_hair.png');
+        let pawAppearance = new CGFappearance(scene);
+        pawAppearance.setTexture(pawTexture);
+        pawAppearance.setTextureWrap('REPEAT', 'REPEAT');
+        this.antenna1 = new MyCylinder(scene, 16, 5, 0.1, pawAppearance);
+        this.antenna2 = new MyCylinder(scene, 16, 5, 0.1, pawAppearance);
+    
+        let eyeTexture = new CGFtexture(scene, 'images/bee_eye.png');
+        let eyeAppearance = new CGFappearance(scene);
+        eyeAppearance.setTexture(eyeTexture);
+        eyeAppearance.setTextureWrap('REPEAT', 'REPEAT');
+        this.eye1 = new MySphere(scene, 16, 8, 0.1, false, eyeAppearance);
+        this.eye2 = new MySphere(scene, 16, 8, 0.1, false, eyeAppearance);
+    
+        let neckTexture = new CGFtexture(scene, 'images/bee_neck.jpg');
+        let neckAppearance = new CGFappearance(scene);
+        neckAppearance.setTexture(neckTexture);
+        neckAppearance.setTextureWrap('REPEAT', 'REPEAT');
+        this.neck = new MySphere(scene, 16, 8, 0.5, false, neckAppearance);
+    
+        let bodyTexture = new CGFtexture(scene, 'images/bee_body.jpg');
+        let bodyAppearance = new CGFappearance(scene);
+        bodyAppearance.setTexture(bodyTexture);
+        bodyAppearance.setTextureWrap('REPEAT', 'REPEAT');
+        this.body = new MySphere(scene, 16, 8, 0.5, false, bodyAppearance);
+    
+        let wingTexture = new CGFtexture(scene, 'images/bee_wing.png');
+        let wingAppearance = new CGFappearance(scene);
+        wingAppearance.setAmbient(0.5, 0.5, 0.4, 0.1);
+        wingAppearance.setDiffuse(0.7, 0.7, 0.6, 0.1);
+        wingAppearance.setSpecular(0.8, 0.8, 0.7, 0.1);
+        wingAppearance.setEmission(0.9, 0.9, 0.6, 0.1);
+        wingAppearance.setTexture(wingTexture);
+        wingAppearance.setTextureWrap('REPEAT', 'REPEAT');
+        this.wing1 = new MyDisc(scene, 20, 0.5, wingAppearance);
+        this.wing2 = new MyDisc(scene, 20, 0.5, wingAppearance);
+        this.wing3 = new MyDisc(scene, 20, 0.5, wingAppearance);
+        this.wing4 = new MyDisc(scene, 20, 0.5, wingAppearance);
+    
+        this.stinger = new MyCone(scene, 16, 8, pawAppearance);
+        
+        this.paw1 = new MyPaw(scene, pawAppearance);
+        this.paw2 = new MyPaw(scene, pawAppearance);
+        this.paw3 = new MyPaw(scene, pawAppearance);
+        this.paw4 = new MyPaw(scene, pawAppearance);
+        this.paw5 = new MyPaw(scene, pawAppearance);
+        this.paw6 = new MyPaw(scene, pawAppearance);
+    }
 
     display() { 
 

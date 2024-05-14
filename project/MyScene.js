@@ -56,9 +56,9 @@ export class MyScene extends CGFscene {
     this.speedFactor = 0.5;
     this.beeScale = 1;
 
-    //this.garden = new MyGarden(this, this.gardenRows, this.gardenCols, this.flowerSpacing);
+    this.garden = new MyGarden(this, this.gardenRows, this.gardenCols, this.flowerSpacing);
 
-    this.garden = new MyGarden(this, 1, 1, this.flowerSpacing);
+    //this.garden = new MyGarden(this, 1, 1, this.flowerSpacing);
 
 
     this.enableTextures(true);
@@ -101,9 +101,8 @@ export class MyScene extends CGFscene {
         let position = flowerAndPosition[1];
 
         //this.bee.goToPosition(position);
-
-        this.bee.goDown(flower.pollen, flower.pollenHeight, flower.pollenOffsetZ)
-      
+        this.bee.goDown(flower.pollen, flower.pollenHeight, flower.pollenOffsetZ);
+              
       }
     }
 
@@ -114,9 +113,15 @@ export class MyScene extends CGFscene {
         let flower = flowerAndPosition[0];
         let position = flowerAndPosition[1];
 
-        this.bee.pickUpPollen(flower.pollen, position);
+        this.bee.pickUpPollen(flower.pollen, position, flower);
       }
     
+    }
+
+    if (this.gui.isKeyPressed("KeyO")) {
+
+      this.bee.goToPosition([-13,-1.5], true);
+      
     }
 
   }
@@ -213,25 +218,26 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
     this.pushMatrix();
-    //this.translate(12, 0, 0);
+    this.translate(12, 0, 0);
     this.garden.display();
     this.popMatrix();
 
     this.pushMatrix();
     this.scale(3.5, 3.5, 3.5);
-    //this.rockSet.display();
+    this.rockSet.display();
     this.popMatrix();
 
     this.pushMatrix();
     //this.translate(0, 30, 0);
     this.scale(this.beeScale, this.beeScale, this.beeScale);
+    this.translate(12, 0, 0);
     this.bee.display();
     this.popMatrix();
 
 
     this.pushMatrix();
     this.translate(0, 12, 0);
-    //this.hive.display();
+    this.hive.display();
     this.popMatrix();
 
 

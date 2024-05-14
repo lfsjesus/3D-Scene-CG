@@ -15,20 +15,21 @@ export class MyBee extends CGFobject {
         this.initAnimationProperties();
 
          // Bee's initial position and orientation
-        this.position = { x: 0, y: 20, z: 0 }; // Position in 3D space
+        this.position = { x: 0, y: 20, z: 0 }; 
         this.orientation = 0; // Orientation angle around the YY-axis (in radians)
-        this.velocity = { x: 0, y: 0, z: 0 }; // Velocity vector
+        this.velocity = { x: 0, y: 0, z: 0 };
+
 
         this.maxSpeed = 25; // Maximum speed in units per second
+        this.targetPosition = null; // Target position for the bee to fly to
 
 
         // Additional properties for pollen interaction
         this.pollen = null;  // This will store the pollen object when picked up
         this.defaultY = 20;  // Default flying height
         this.carryingPollen = false;
+        this.droppingPollen = false;
         this.oldVelocity = 0;
-
-
         this.pollenHeight = 0;
         this.pollenOffsetZ = 0;
 
@@ -69,7 +70,11 @@ export class MyBee extends CGFobject {
         this.pickUpAnimation = false;
     }
 
-    goToPosition(position) {
+    goToPosition(position, reachedHive=false) {
+        this.reachedHive = reachedHive;
+        this.targetPosition = position; // Store the target position
+        this.reachedTarget = false; // Reset the flag
+
         let dx = position[0] - this.position.x;
         let dz = position[1] - this.position.z;
 
@@ -77,106 +82,138 @@ export class MyBee extends CGFobject {
 
         this.turn(angle - this.orientation);
         this.accelerate(5);
+
     }
 
     goDown(pollen, pollenHeight, pollenOffsetZ) {
-        this.goDownAnimation = true;
-        this.pollenHeight = pollenHeight;
-        this.pollenOffsetZ = pollenOffsetZ;
-    }
-
-    // Call this method when the bee picks up pollen
-    pickUpPollen(pollen, pollenPosition) {
-
-        if(this.stopped){
-
-        this.stopped = false;
-        this.pickUpAnimation = true;
-
-        if (!this.carryingPollen && pollen) {
-
-            //calculate my distance to the pollen
-            let dx = pollenPosition[0] - this.position.x;
-            let dz = pollenPosition[1] - this.position.z;
-
-            let distance = Math.sqrt(dx * dx + dz * dz);
-
-            //if the distance is less than 1, then pick up the pollen
-            if (distance < 3) {
-                this.pollen = pollen;
-                this.carryingPollen = true;
-            }
-        };
+        if (!this.goDownAnimation && !this.stopped) {
+            this.oldVelocity = { ...this.velocity }; // Store the current velocity
+            this.velocity = { x: 0, y: -1, z: 0 }; // Set vertical downward velocity
+            this.goDownAnimation = true;
+            this.pollenHeight = pollenHeight;
+            this.pollenOffsetZ = pollenOffsetZ;
         }
     }
+    
+    
 
+    // Call this method when the bee picks up pollen
+    pickUpPollen(pollen, pollenPosition, flower) {
+        if (this.stopped) {
+            this.stopped = false;
+            this.pickUpAnimation = true;
+    
+            if (!this.carryingPollen && pollen) {
+                // Calculate the distance to the pollen
+                let dx = pollenPosition[0] - this.position.x;
+                let dz = pollenPosition[1] - this.position.z;
+                let distance = Math.sqrt(dx * dx + dz * dz);
+    
+                // If the distance is less than or equal to 3, pick up the pollen
+                if (distance <= 3) {
+                    this.pollen = pollen;
+                    this.carryingPollen = true;
+                    flower.pollen = null; // Remove pollen from the flower
+                }
+            }
+        }
+    }
+    
+    
     // Call this method to drop the pollen
     dropPollen() {
         if (this.carryingPollen) {
             this.carryingPollen = false;
-            let droppedPollen = this.pollen;
-            this.pollen = null;
-            return droppedPollen;  // Return the pollen object to be managed by the scene or hive
+            this.droppingPollen = true;
+            this.pollenDropPosition = { x: this.position.x, y: this.position.y, z: this.position.z };
+            this.pollenDropStartTime = Date.now();
         }
-        return null;
     }
 
 
     // Update the animation based on the time elapsed, t is the time in milliseconds
     update(t) {
-
-        // Keeping the old velocity when picking up pollen
-        if (this.goDownAnimation || this.stopped) {
-            this.oldVelocity = this.velocity;
-            this.velocity = { x: 0, y: this.velocity.y, z: 0 };
+        // Check if it reached the desired position
+        if (this.targetPosition) {
+            let dx = this.targetPosition[0] - this.position.x;
+            let dz = this.targetPosition[1] - this.position.z;
+            let distance = Math.sqrt(dx * dx + dz * dz);
+    
+            if (distance <= 1) { // If close enough to the target position, stop
+                this.targetPosition = null; // Clear the target position
+                this.velocity = { x: 0, y: 0, z: 0 }; // Stop the bee
+                
+                if(this.reachedHive){
+                this.dropPollen(); // Drop the pollen if carrying any
+                }
+            } else {
+                // Continue updating the orientation and speed if not close enough
+                let angle = Math.atan2(dz, dx);
+                this.turn(angle - this.orientation);
+                this.accelerate(5);
+            }
         }
-
+    
         // Calculate elapsed time in seconds
         let delta_t = (t - this.lastUpdateTime) / 1000.0;
         this.lastUpdateTime = t;
-
+    
         // Update position based on velocity
         this.position.x += this.velocity.x * delta_t;
         this.position.y += this.velocity.y * delta_t;
         this.position.z += this.velocity.z * delta_t;
-
-        if(!this.stopped){
-
-        //bee oscillation animation
-        this.animTime = t % this.oscillationPeriod;
-        const fraction = this.animTime / this.oscillationPeriod;
-        this.yPosition = this.oscillationAmplitude * Math.sin(2 * Math.PI * fraction);
     
-        //wing flapping animation
-        const flapTime = t % this.flapPeriod;
-        const flapFraction = flapTime / this.flapPeriod;
-        this.wingAngle = this.flapAmplitude * Math.sin(2 * Math.PI * flapFraction);
-        
+        // Bee oscillation animation
+        if (!this.stopped) {
+            this.animTime = t % this.oscillationPeriod;
+            const fraction = this.animTime / this.oscillationPeriod;
+            this.yPosition = this.oscillationAmplitude * Math.sin(2 * Math.PI * fraction);
+    
+            // Wing flapping animation
+            const flapTime = t % this.flapPeriod;
+            const flapFraction = flapTime / this.flapPeriod;
+            this.wingAngle = this.flapAmplitude * Math.sin(2 * Math.PI * flapFraction);
         }
-
-        //Go Down Animation
-
-        if(this.goDownAnimation && this.position.y >= this.pollenHeight){
-            if(this.position.y - 0.5 <= this.pollenHeight){
+    
+        // Go Down Animation
+        if (this.goDownAnimation) {
+            if (this.position.y <= this.pollenHeight) {
                 this.goDownAnimation = false;
                 this.stopped = true;
+                this.velocity = { x: 0, y: 0, z: 0 }; // Stop the bee after going down
+            } else {
+                this.position.y -= 0.5; // Move downwards
             }
-            this.position.y -= 0.5;
         }
-
-
-        //Pick Up Animation
-        if(this.pickUpAnimation && this.position.y <= this.defaultY){
-            if(this.position.y + 0.5 >= this.defaultY){
+    
+        // Pick Up Animation
+        if (this.pickUpAnimation) {
+            if (this.position.y >= this.defaultY) {
                 this.pickUpAnimation = false;
-                this.velocity = this.oldVelocity;
-                this.position.y = this.defaultY;
+                this.stopped = false;
+                this.velocity = { ...this.oldVelocity }; // Restore the old velocity
+            } else {
+                this.position.y += 0.5; // Move upwards
             }
-            this.position.y += 0.5;
         }
-        
 
+         // Pollen Drop Animation
+        if (this.droppingPollen) {
+            let elapsedTime = (Date.now() - this.pollenDropStartTime) / 1000; // Time in seconds
+            let dropDuration = 2; // Duration of the drop in seconds
+            let dropHeight = 5; // Height from which pollen drops
+
+            if (elapsedTime < dropDuration) {
+                // Calculate the new position based on elapsed time
+                let fallProgress = elapsedTime / dropDuration;
+                this.pollenDropPosition.y -= dropHeight * fallProgress;
+            } else {
+                this.droppingPollen = false; // End the dropping animation
+            }
+        }
     }
+    
+    
 
     turn(angle) {
         let speed = Math.sqrt(this.velocity.x ** 2 + this.velocity.z ** 2);
@@ -261,6 +298,8 @@ export class MyBee extends CGFobject {
 
         this.scene.pushMatrix();
 
+        this.scene.translate(1, 0, 0);
+
         if (this.carryingPollen) {
             this.scene.pushMatrix();
             // Transform to position the pollen correctly relative to the bee
@@ -276,6 +315,17 @@ export class MyBee extends CGFobject {
             this.pollen.display();
             this.scene.popMatrix();
         }
+
+       // Render the pollen if it is being dropped
+        if (this.droppingPollen) {
+            this.scene.pushMatrix();
+            this.scene.translate(this.pollenDropPosition.x, this.pollenDropPosition.y, this.pollenDropPosition.z);
+            this.scene.scale(1.8,1.8,1.8)
+            this.pollen.display();
+            this.scene.popMatrix();
+        }
+                
+                
 
 
         // Translate to current position and rotate

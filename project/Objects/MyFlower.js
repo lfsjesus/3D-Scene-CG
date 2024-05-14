@@ -166,6 +166,7 @@ export class MyFlower extends CGFobject {
         // MyPollen
         this.scene.pushMatrix();
         this.scene.translate(0, 0.15, 0);
+        this.scene.rotate(lastCurvature, 1, 0, 0);
         this.pollen.display();
         this.scene.popMatrix();
 

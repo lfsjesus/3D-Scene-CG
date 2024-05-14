@@ -72,8 +72,8 @@ export class MyGarden extends CGFobject {
                 // also add a small random value to the position to make it look more natural
                 // each flower should be placed in a random position between 0 and flowerSpacing
 
-                let xPosition = i * flowerSpacing + Math.random() * flowerSpacing;
-                let yPosition = j * flowerSpacing + Math.random() * flowerSpacing;
+                let xPosition = i * flowerSpacing + Math.random() * flowerSpacing / 1.5;
+                let yPosition = j * flowerSpacing + Math.random() * flowerSpacing / 1.5;
 
                
                 this.flowers.push({ flower: flower, position: [xPosition, yPosition] });

@@ -8,6 +8,8 @@ import { MyRockSet } from "./Objects/MyRockSet.js";
 import { MyBee } from "./Objects/MyBee.js";
 import { MyPaw } from "./Objects/MyPaw.js";
 import { MyPollen } from "./Objects/MyPollen.js";
+import { MyParallelepiped } from "./Primitives/MyParallelepiped.js";
+import { MyHive } from "./Objects/MyHive.js";
 
 /**
  * MyScene
@@ -43,6 +45,7 @@ export class MyScene extends CGFscene {
     this.flower = new MyFlower(this, 6, 5, 0.5, 0.2, 3, [1.0, 0.0, 0.5, 1.0], [0.0, 1.0, 0.0, 1.0], [0.0, 1.0, 0.0, 1.0], [0.0, 1.0, 0.0, 1.0]); 
     this.bee = new MyBee(this);
     this.pollen = new MyPollen(this, 16, 8, 0.5);
+    this.hive = new MyHive(this);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -170,12 +173,17 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
     this.translate(0, 5, 0);
     this.scale(this.beeScale, this.beeScale, this.beeScale);
-    this.bee.display();
+    //this.bee.display();
     this.popMatrix();
 
     this.pushMatrix();
-    this.pollen.display();
+    //this.pollen.display();
     this.popMatrix();
+
+    this.pushMatrix();
+    this.hive.display();
+    this.popMatrix();
+
 
 
     // ---- END Primitive drawing section

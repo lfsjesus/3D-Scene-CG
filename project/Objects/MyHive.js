@@ -19,8 +19,15 @@ export class MyHive extends CGFobject {
         woodenMaterial.setSpecular(1, 1, 1, 1);
         woodenMaterial.setShininess(10.0);
 
+        let polenTexture = new CGFtexture(this.scene, 'images/pollen.jpeg');
+        let polenMaterial = new CGFappearance(this.scene);
+        polenMaterial.setTexture(polenTexture);
+        polenMaterial.setTextureWrap('REPEAT', 'REPEAT');
+        polenMaterial.setShininess(10.0);
+
 
         this.face = new MyParallelepiped(this.scene, 10, 10, 0.5, woodenMaterial);
+        this.pollen = new MyParallelepiped(this.scene, 9.5, 9.5, 0.5, polenMaterial);
     }
 
     display() {
@@ -69,6 +76,14 @@ export class MyHive extends CGFobject {
         this.scene.translate(0, 13, -9);
         this.scene.rotate(- Math.PI/4 , 1, 0, 0);
         this.face.display();
+        this.scene.popMatrix();
+
+
+        // Pollen
+        this.scene.pushMatrix();
+        this.scene.translate(0, 3.5, 0);
+        this.scene.rotate(Math.PI / 2, 1, 0, 0);
+        this.pollen.display();
         this.scene.popMatrix();
 
         this.scene.translate(0, 10, 0);

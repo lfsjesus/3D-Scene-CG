@@ -6,6 +6,7 @@ import { MyRockSet } from "./Objects/MyRockSet.js";
 import { MyBee } from "./Objects/MyBee.js";
 import { MyPollen } from "./Objects/MyPollen.js";
 import { MyHive } from "./Objects/MyHive.js";
+import { MyGrass } from './Objects/MyGrass.js';
 
 /**
  * MyScene
@@ -46,6 +47,8 @@ export class MyScene extends CGFscene {
     this.bee = new MyBee(this);
     this.pollen = new MyPollen(this, 16, 8, 0.5);
     this.hive = new MyHive(this);
+    this.grass = new MyGrass(this, 50, 50, 1500); // 500 blades of grass over a 50x50 area
+
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -239,6 +242,13 @@ export class MyScene extends CGFscene {
     this.translate(0, 12, 0);
     this.hive.display();
     this.popMatrix();
+
+    this.pushMatrix();
+    this.translate(0, 0, 0);
+    this.scale(1.3, 1.3, 1.3);
+    this.grass.display();
+    this.popMatrix();
+
 
 
 

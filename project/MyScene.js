@@ -1,14 +1,10 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
 import { MyPlane } from "./MyPlane.js";
 import { MyPanorama } from "./Objects/MyPanorama.js";
-import { MyFlower } from "./Objects/MyFlower.js";
-import { MyPetal } from "./Objects/MyPetal.js";
 import { MyGarden } from "./Objects/MyGarden.js";
 import { MyRockSet } from "./Objects/MyRockSet.js";
 import { MyBee } from "./Objects/MyBee.js";
-import { MyPaw } from "./Objects/MyPaw.js";
 import { MyPollen } from "./Objects/MyPollen.js";
-import { MyParallelepiped } from "./Primitives/MyParallelepiped.js";
 import { MyHive } from "./Objects/MyHive.js";
 
 /**
@@ -38,11 +34,15 @@ export class MyScene extends CGFscene {
 
     //Initialize scene objects
     this.axis = new CGFaxis(this);
-    this.plane = new MyPlane(this, 30);
+    
+    let planeMaterial = new CGFappearance(this);
+    planeMaterial.setTexture(new CGFtexture(this, 'images/grass.jpg'));
+    planeMaterial.setTextureWrap('REPEAT', 'REPEAT');
+    planeMaterial.setShininess(10.0);
+
+    this.plane = new MyPlane(this, 30, planeMaterial);
     this.panorama = new MyPanorama(this, new CGFtexture(this, 'images/panorama.jpg'), 200);
-    this.petal = new MyPetal(this, 4, 0, 0, 0);
     this.rockSet = new MyRockSet(this, 3);
-    this.flower = new MyFlower(this, 6, 5, 0.5, 0.2, 3, [1.0, 0.0, 0.5, 1.0], [0.0, 1.0, 0.0, 1.0], [0.0, 1.0, 0.0, 1.0], [0.0, 1.0, 0.0, 1.0]); 
     this.bee = new MyBee(this);
     this.pollen = new MyPollen(this, 16, 8, 0.5);
     this.hive = new MyHive(this);
@@ -142,15 +142,10 @@ export class MyScene extends CGFscene {
     // ---- BEGIN Primitive drawing section
 
     this.pushMatrix();
-    this.translate(0, -100, 0);
+    //this.translate(0, -100, 0);
     this.scale(400, 400, 400);
     this.rotate(-Math.PI / 2.0, 1, 0, 0);
-    //this.plane.display();
-    this.popMatrix();
-
-
-    this.pushMatrix();
-    //this.flower.display();
+    this.plane.display();
     this.popMatrix();
 
     this.pushMatrix();
@@ -158,29 +153,25 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
     this.pushMatrix();
+    this.translate(12, 0, 0);
+    this.scale(2, 2, 2);
     this.garden.display();
     this.popMatrix();
 
     this.pushMatrix();
-    //this.rock.display();
-    this.popMatrix(); 
-
-
-    this.pushMatrix();
-    //this.rockSet.display();
+    this.scale(3.5, 3.5, 3.5);
+    this.rockSet.display();
     this.popMatrix();
 
     this.pushMatrix();
-    this.translate(0, 5, 0);
+    this.translate(0, 30, 0);
     this.scale(this.beeScale, this.beeScale, this.beeScale);
-    //this.bee.display();
+    this.bee.display();
     this.popMatrix();
 
-    this.pushMatrix();
-    //this.pollen.display();
-    this.popMatrix();
 
     this.pushMatrix();
+    this.translate(0, 12, 0);
     this.hive.display();
     this.popMatrix();
 

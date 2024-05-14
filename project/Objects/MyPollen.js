@@ -2,7 +2,7 @@ import { CGFobject } from '../../lib/CGF.js';
 import { CGFtexture, CGFappearance } from '../../lib/CGF.js';
 
 export class MyPollen extends CGFobject {
-    constructor(scene, slices, stacks, radius) {
+    constructor(scene, slices, stacks, radius, x, y, z) {
         super(scene);
         this.slicesCount = slices;
         this.stacksCount = stacks * 2;  // Multiplied by 2 to account for both hemispheres
@@ -57,7 +57,7 @@ export class MyPollen extends CGFobject {
                 let s = sliceIndex / this.slicesCount;
                 let t = stackIndex / this.stacksCount;
                 // Remap t to start and end at the poles
-                t = 1 - t; // Invert t if necessary
+                t = 1 - t; 
     
                 this.texCoords.push(s, t);
     

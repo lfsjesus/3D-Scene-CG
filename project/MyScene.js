@@ -56,7 +56,10 @@ export class MyScene extends CGFscene {
     this.speedFactor = 0.5;
     this.beeScale = 1;
 
-    this.garden = new MyGarden(this, this.gardenRows, this.gardenCols, this.flowerSpacing);
+    //this.garden = new MyGarden(this, this.gardenRows, this.gardenCols, this.flowerSpacing);
+
+    this.garden = new MyGarden(this, 1, 1, this.flowerSpacing);
+
 
     this.enableTextures(true);
 
@@ -85,11 +88,68 @@ export class MyScene extends CGFscene {
     }
     if (this.gui.isKeyPressed("KeyR")) {
         // Reset bee's position, orientation, and velocity
-        this.bee.position = { x: 0, y: 0, z: 0 };
+        this.bee.position = { x: 0, y: 20, z: 0 };
         this.bee.orientation = 0;
         this.bee.velocity = { x: 0, y: 0, z: 0 };
     }
-}
+
+    if (this.gui.isKeyPressed("KeyF")) {
+      let flowerAndPosition = this.findClosestFlower(); 
+
+      if (flowerAndPosition) {
+        let flower = flowerAndPosition[0];
+        let position = flowerAndPosition[1];
+
+        //this.bee.goToPosition(position);
+
+        this.bee.goDown(flower.pollen, flower.pollenHeight, flower.pollenOffsetZ)
+      
+      }
+    }
+
+    if (this.gui.isKeyPressed("KeyP")) {
+      let flowerAndPosition = this.findClosestFlower();
+
+      if (flowerAndPosition) {
+        let flower = flowerAndPosition[0];
+        let position = flowerAndPosition[1];
+
+        this.bee.pickUpPollen(flower.pollen, position);
+      }
+    
+    }
+
+  }
+
+  
+
+
+  findClosestFlower() {
+    let minDist = Infinity;
+    let closestFlower = null;
+    let flowerPosition = null;
+
+
+    for (let item of this.garden.flowers) {
+      let flower = item.flower;
+      let position = item.position;
+
+      let dist = Math.sqrt(
+        Math.pow(this.bee.position.x - position[0], 2) +
+        Math.pow(this.bee.position.z - position[1], 2)
+      );
+
+      if (dist < minDist) {
+        minDist = dist;
+        closestFlower = flower;
+        flowerPosition = position;
+
+      }  
+
+    }
+    return [closestFlower, flowerPosition];
+    
+  }
 
 
 
@@ -153,18 +213,17 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
     this.pushMatrix();
-    this.translate(12, 0, 0);
-    this.scale(2, 2, 2);
+    //this.translate(12, 0, 0);
     this.garden.display();
     this.popMatrix();
 
     this.pushMatrix();
     this.scale(3.5, 3.5, 3.5);
-    this.rockSet.display();
+    //this.rockSet.display();
     this.popMatrix();
 
     this.pushMatrix();
-    this.translate(0, 30, 0);
+    //this.translate(0, 30, 0);
     this.scale(this.beeScale, this.beeScale, this.beeScale);
     this.bee.display();
     this.popMatrix();
@@ -172,7 +231,7 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
     this.translate(0, 12, 0);
-    this.hive.display();
+    //this.hive.display();
     this.popMatrix();
 
 

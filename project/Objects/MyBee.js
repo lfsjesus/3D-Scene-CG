@@ -6,6 +6,7 @@ import {MyDisc} from '../Primitives/MyDisc.js';
 import { MyPaw } from './MyPaw.js';
 import { CGFtexture } from '../../lib/CGF.js';
 import { CGFappearance } from '../../lib/CGF.js';
+import { MyPollen } from './MyPollen.js';
 
 export class MyBee extends CGFobject {
     constructor(scene) {
@@ -14,11 +15,22 @@ export class MyBee extends CGFobject {
         this.initAnimationProperties();
 
          // Bee's initial position and orientation
-        this.position = { x: 0, y: 0, z: 0 }; // Position in 3D space
+        this.position = { x: 0, y: 20, z: 0 }; // Position in 3D space
         this.orientation = 0; // Orientation angle around the YY-axis (in radians)
         this.velocity = { x: 0, y: 0, z: 0 }; // Velocity vector
 
         this.maxSpeed = 25; // Maximum speed in units per second
+
+
+        // Additional properties for pollen interaction
+        this.pollen = null;  // This will store the pollen object when picked up
+        this.defaultY = 20;  // Default flying height
+        this.carryingPollen = false;
+        this.oldVelocity = 0;
+
+
+        this.pollenHeight = 0;
+        this.pollenOffsetZ = 0;
 
         this.initMaterials(scene);
 
@@ -51,31 +63,84 @@ export class MyBee extends CGFobject {
         this.wingAngle = 0;  // Initial angle for wings
         this.flapAmplitude = 20; // Degrees: max rotation angle of the wings
         this.flapPeriod = 200; // Flapping cycle every 200 milliseconds
+
+        this.goDownAnimation = false;
+        this.stopped = false;
+        this.pickUpAnimation = false;
+    }
+
+    goToPosition(position) {
+        let dx = position[0] - this.position.x;
+        let dz = position[1] - this.position.z;
+
+        let angle = Math.atan2(dz, dx);
+
+        this.turn(angle - this.orientation);
+        this.accelerate(5);
+    }
+
+    goDown(pollen, pollenHeight, pollenOffsetZ) {
+        this.goDownAnimation = true;
+        this.pollenHeight = pollenHeight;
+        this.pollenOffsetZ = pollenOffsetZ;
+    }
+
+    // Call this method when the bee picks up pollen
+    pickUpPollen(pollen, pollenPosition) {
+
+        if(this.stopped){
+
+        this.stopped = false;
+        this.pickUpAnimation = true;
+
+        if (!this.carryingPollen && pollen) {
+
+            //calculate my distance to the pollen
+            let dx = pollenPosition[0] - this.position.x;
+            let dz = pollenPosition[1] - this.position.z;
+
+            let distance = Math.sqrt(dx * dx + dz * dz);
+
+            //if the distance is less than 1, then pick up the pollen
+            if (distance < 3) {
+                this.pollen = pollen;
+                this.carryingPollen = true;
+            }
+        };
+        }
+    }
+
+    // Call this method to drop the pollen
+    dropPollen() {
+        if (this.carryingPollen) {
+            this.carryingPollen = false;
+            let droppedPollen = this.pollen;
+            this.pollen = null;
+            return droppedPollen;  // Return the pollen object to be managed by the scene or hive
+        }
+        return null;
     }
 
 
     // Update the animation based on the time elapsed, t is the time in milliseconds
     update(t) {
 
+        // Keeping the old velocity when picking up pollen
+        if (this.goDownAnimation || this.stopped) {
+            this.oldVelocity = this.velocity;
+            this.velocity = { x: 0, y: this.velocity.y, z: 0 };
+        }
+
         // Calculate elapsed time in seconds
         let delta_t = (t - this.lastUpdateTime) / 1000.0;
         this.lastUpdateTime = t;
-
-        // Apply deceleration
-        let speed = Math.sqrt(this.velocity.x ** 2 + this.velocity.z ** 2);
-        if (speed > 0) {
-            const deceleration = 1; // Deceleration factor per second
-            speed = Math.max(0, speed - deceleration * delta_t);
-            this.velocity.x = Math.cos(this.orientation) * speed;
-            this.velocity.z = Math.sin(this.orientation) * speed;
-        }
 
         // Update position based on velocity
         this.position.x += this.velocity.x * delta_t;
         this.position.y += this.velocity.y * delta_t;
         this.position.z += this.velocity.z * delta_t;
 
-
+        if(!this.stopped){
 
         //bee oscillation animation
         this.animTime = t % this.oscillationPeriod;
@@ -86,7 +151,31 @@ export class MyBee extends CGFobject {
         const flapTime = t % this.flapPeriod;
         const flapFraction = flapTime / this.flapPeriod;
         this.wingAngle = this.flapAmplitude * Math.sin(2 * Math.PI * flapFraction);
-    
+        
+        }
+
+        //Go Down Animation
+
+        if(this.goDownAnimation && this.position.y >= this.pollenHeight){
+            if(this.position.y - 0.5 <= this.pollenHeight){
+                this.goDownAnimation = false;
+                this.stopped = true;
+            }
+            this.position.y -= 0.5;
+        }
+
+
+        //Pick Up Animation
+        if(this.pickUpAnimation && this.position.y <= this.defaultY){
+            if(this.position.y + 0.5 >= this.defaultY){
+                this.pickUpAnimation = false;
+                this.velocity = this.oldVelocity;
+                this.position.y = this.defaultY;
+            }
+            this.position.y += 0.5;
+        }
+        
+
     }
 
     turn(angle) {
@@ -103,6 +192,11 @@ export class MyBee extends CGFobject {
         // Adjust the speed by modifying the magnitude of the velocity vector
         let speed = Math.sqrt(this.velocity.x ** 2 + this.velocity.z ** 2) + increment;
         speed = Math.min(speed, this.maxSpeed); // Clamp speed to the maximum speed
+        
+        if (speed < 0) {
+            speed = 0;
+        }
+    
         this.velocity.x = Math.cos(this.orientation) * speed;
         this.velocity.z = Math.sin(this.orientation) * speed;
     }
@@ -167,6 +261,23 @@ export class MyBee extends CGFobject {
 
         this.scene.pushMatrix();
 
+        if (this.carryingPollen) {
+            this.scene.pushMatrix();
+            // Transform to position the pollen correctly relative to the bee
+            this.scene.translate(this.position.x, this.position.y - 1, this.position.z);
+            this.scene.rotate(-this.orientation, 0, 1, 0);
+            
+            // Apply vertical oscillation from the update method
+            this.scene.translate(0, this.yPosition, 0);
+
+            this.scene.scale(1.5,1.5,1.5)
+
+
+            this.pollen.display();
+            this.scene.popMatrix();
+        }
+
+
         // Translate to current position and rotate
         this.scene.translate(this.position.x, this.position.y, this.position.z);
         this.scene.rotate(-this.orientation, 0, 1, 0);
@@ -175,6 +286,7 @@ export class MyBee extends CGFobject {
         // Apply vertical oscillation from the update method
         this.scene.translate(0, this.yPosition, 0);
 
+       
         this.scene.pushMatrix();
 
         //rotate 180 degrees to face the correct direction
@@ -334,7 +446,6 @@ export class MyBee extends CGFobject {
         this.scene.popMatrix(); 
 
         this.scene.popMatrix(); //180 degrees rotation
-
 
         this.scene.popMatrix();
     }

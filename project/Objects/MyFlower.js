@@ -66,6 +66,10 @@ export class MyFlower extends CGFobject {
 
         this.stems = [];
 
+        this.pollenHeight = 0;
+        this.pollenOffsetZ = 0;
+        this.lastCurvature = 0;
+
         for (let i = 0; i < numStems; i++) {
 
             //the height of each stem should be random between 0.5 and 2, inclusive
@@ -83,8 +87,13 @@ export class MyFlower extends CGFobject {
                 this.stems.push(new MyStem(scene, 16, 0.05, stemRadius, curvatureAngle, true, stemSide));
             }
 
+            this.pollenHeight += height * Math.cos(curvatureAngle);
+            this.pollenOffsetZ += height * Math.sin(curvatureAngle);
+            this.lastCurvature = curvatureAngle;
 
         }
+
+        this.pollenHeight += 1.5
 
         //MATERIALS FOR THE FLOWER
 
@@ -107,7 +116,7 @@ export class MyFlower extends CGFobject {
     display() {
         let stemHeight = 0;
         let offsetZ = 0;
-        let lastCurvature = 0;
+
 
         this.scene.pushMatrix();
 
@@ -155,22 +164,24 @@ export class MyFlower extends CGFobject {
 
             stemHeight += stem.height * Math.cos(stem.curvatureAngle);
             offsetZ += stem.height * Math.sin(stem.curvatureAngle);
-            lastCurvature = stem.curvatureAngle;
         }
 
         this.scene.popMatrix();
 
         // Now, translate everything up by the total height of the stems
+        //this.scene.translate(0, stemHeight, offsetZ);
         this.scene.translate(0, stemHeight, offsetZ);
-        
-        // MyPollen
-        this.scene.pushMatrix();
-        this.scene.translate(0, 0.15, 0);
-        this.scene.rotate(lastCurvature, 1, 0, 0);
-        this.pollen.display();
-        this.scene.popMatrix();
 
-        this.scene.rotate(lastCurvature + Math.PI/2, 1, 0, 0);
+        // MyPollen
+
+        if(this.pollen){
+            this.scene.pushMatrix();
+            this.scene.translate(0, 0.15, 0);
+            this.pollen.display();
+            this.scene.popMatrix();
+        }
+
+        this.scene.rotate(this.lastCurvature + Math.PI/2, 1, 0, 0);
 
 
         

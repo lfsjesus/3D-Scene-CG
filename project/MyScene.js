@@ -15,6 +15,7 @@ import { MyGrass } from './Objects/MyGrass.js';
 export class MyScene extends CGFscene {
   constructor() {
     super();
+    this.currentCamera = 0; // 0 for default camera, 1 for bee-following camera
   }
   init(application) {
     super.init(application);
@@ -47,7 +48,7 @@ export class MyScene extends CGFscene {
     this.bee = new MyBee(this);
     this.pollen = new MyPollen(this, 16, 8, 0.5);
     this.hive = new MyHive(this);
-    this.grass = new MyGrass(this, 50, 50, 1500); // 500 blades of grass over a 50x50 area
+    this.grass = new MyGrass(this, 50, 50, 1000); // 500 blades of grass over a 50x50 area
 
 
     //Objects connected to MyInterface
@@ -70,11 +71,38 @@ export class MyScene extends CGFscene {
     this.setUpdatePeriod(50); // **at least** 50 ms between animations
   }
 
+  initCameras() {
+    this.defaultCamera = new CGFcamera(
+      1.0,
+      0.1,
+      1000,
+      vec3.fromValues(10, 5, 5),
+      vec3.fromValues(0, 0, 0)
+    );
+
+    this.beeCamera = new CGFcamera(
+      1.0,
+      0.1,
+      1000,
+      vec3.fromValues(0, 5, 10),
+      vec3.fromValues(0, 0, 0)
+    );
+
+    this.camera = this.defaultCamera;
+
+  }
+
+
   update(t) {
     this.bee.update(t);
     this.checkKeys();  // Check key states and react
 
+    if (this.currentCamera === 1) {
+      this.updateBeeCamera();
+    }
+
   }
+
 
   checkKeys() {
     if (this.gui.isKeyPressed("KeyW")) {
@@ -127,9 +155,34 @@ export class MyScene extends CGFscene {
       
     }
 
+    if (this.gui.isKeyPressed("KeyC")) {
+      this.toggleCamera();
+    }
+
   }
 
-  
+  updateBeeCamera() {
+    const beePos = this.bee.position;
+    const cameraOffset = vec3.fromValues(30, 30, 5); // Adjust the offset as needed
+
+    const beeCameraPos = vec3.create();
+    vec3.add(beeCameraPos, [beePos.x, beePos.y, beePos.z], cameraOffset);
+
+    this.beeCamera.setPosition(beeCameraPos);
+    this.beeCamera.setTarget([beePos.x, beePos.y, beePos.z]);
+}
+
+
+  toggleCamera() {
+    this.currentCamera = (this.currentCamera + 1) % 2;
+    if (this.currentCamera === 0) {
+      this.camera = this.defaultCamera;
+    } else {
+      this.camera = this.beeCamera;
+      this.updateBeeCamera();
+    }
+    this.interface.setActiveCamera(this.camera);
+  }
 
 
   findClosestFlower() {
@@ -174,15 +227,7 @@ export class MyScene extends CGFscene {
     this.lights[1].update();
 
   }
-  initCameras() {
-    this.camera = new CGFcamera(
-      1.0,
-      0.1,
-      1000,
-      vec3.fromValues(10, 5, 5),
-      vec3.fromValues(0, 0, 0)
-    );
-  }
+ 
   setDefaultAppearance() {
     this.setAmbient(0.2, 0.4, 0.8, 1.0);
     this.setDiffuse(0.2, 0.4, 0.8, 1.0);

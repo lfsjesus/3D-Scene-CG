@@ -38,7 +38,7 @@ export class MyScene extends CGFscene {
     this.axis = new CGFaxis(this);
     
     let planeMaterial = new CGFappearance(this);
-    planeMaterial.setTexture(new CGFtexture(this, 'images/grass.jpg'));
+    planeMaterial.setTexture(new CGFtexture(this, 'images/grass3.jpg'));
     planeMaterial.setTextureWrap('REPEAT', 'REPEAT');
     planeMaterial.setShininess(10.0);
 
@@ -60,9 +60,9 @@ export class MyScene extends CGFscene {
     this.speedFactor = 0.5;
     this.beeScale = 1;
 
-    //this.garden = new MyGarden(this, this.gardenRows, this.gardenCols, this.flowerSpacing);
+    this.garden = new MyGarden(this, 10, 10, this.flowerSpacing);
 
-    this.garden = new MyGarden(this, 1, 1, this.flowerSpacing);
+    //this.garden = new MyGarden(this, 1, 1, this.flowerSpacing);
 
 
     this.enableTextures(true);

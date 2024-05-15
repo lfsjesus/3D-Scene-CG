@@ -14,20 +14,20 @@ export class MyFlower extends CGFobject {
         this.stemRadius = stemRadius;
         this.numPetals = numPetals;
         this.numStems = numStems;
-        this.petalColor = petalColor;
-        this.recepColor = recepColor;
-        this.stemColor = stemColor;
+        this.petalMat = petalColor;
+        this.recepMat = recepColor;
+        this.stemMat = stemColor;
         this.leafColor = leafColor;
 
+
+
+        this.receptacle = new MyReceptacle(scene, 16, 8, receptacleRadius, this.recepMat);
+
+        //there should be a 70% chance of having a pollen in the flower
+        if (Math.random() < 0.7) this.pollen = new MyPollen(scene, 16, 8, stemRadius * 2);
+        else this.pollen = null;
         
-        //MATERIALS FOR THE FLOWER
-
-        this.initMaterials(stemColor, petalColor);
-
-        this.receptacle = new MyReceptacle(scene, 16, 8, receptacleRadius, this.recepMaterial);
-
-        this.pollen = new MyPollen(scene, 16, 8, stemRadius * 2);
-
+        
         // array of petals with angle increment of 2*PI/numPetals
         this.petals = [];
 
@@ -94,28 +94,6 @@ export class MyFlower extends CGFobject {
 
     }
 
-    initMaterials(stemColor, petalColor) {
-        let stemTexture = new CGFtexture(this.scene, 'images/stem4.png');
-        this.stemMat = new CGFappearance(this.scene);
-        this.stemMat.setTexture(stemTexture);
-        this.stemMat.setTextureWrap('REPEAT', 'REPEAT');
-        this.stemMat.setShininess(10.0);
-
-        let recepTexture = new CGFtexture(this.scene, 'images/recep.jpg');
-        this.recepMaterial = new CGFappearance(this.scene);
-        this.recepMaterial.setTexture(recepTexture);
-        this.recepMaterial.setTextureWrap('REPEAT', 'REPEAT');
-        this.recepMaterial.setShininess(10.0);
-    
-        let petalTexture = new CGFtexture(this.scene, 'images/petal7.png');
-        this.petalMat = new CGFappearance(this.scene);
-        this.petalMat.setTexture(petalTexture);
-        this.petalMat.setTextureWrap('REPEAT', 'REPEAT');
-        this.petalMat.setShininess(10.0);
-
-
-    
-    }
 
 
     display() {
@@ -142,7 +120,6 @@ export class MyFlower extends CGFobject {
 
             if (stem.hasPetal) {
                 //add a petal to this stem
-                //this.petalMat.apply();
                 let petal = new MyPetal(this.scene, 0.5, 0, 1, 0);
                 this.scene.pushMatrix();
 
@@ -161,7 +138,6 @@ export class MyFlower extends CGFobject {
 
             // Draw the stem
             stem.display();
-            //this.stemMat.apply();
             this.scene.popMatrix();
 
             // Update stemHeight with the height of this stem to position the next one correctly

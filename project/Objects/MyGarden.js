@@ -1,5 +1,5 @@
 import { MyFlower } from "./MyFlower.js";
-import { CGFobject } from "../../lib/CGF.js";
+import { CGFobject, CGFappearance, CGFtexture } from "../../lib/CGF.js";
 
 export class MyGarden extends CGFobject {
     constructor(scene, rows, cols, flowerSpacing) {
@@ -11,7 +11,6 @@ export class MyGarden extends CGFobject {
 
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < cols; j++) {
-                // Parâmetros da flor, temos de por random
 
                 //using javascript random fucntion, num petals should be a random number between 3 and 6
                 let numPetals = Math.floor(Math.random() * 3) + 3;
@@ -29,43 +28,56 @@ export class MyGarden extends CGFobject {
                 let numStems = Math.floor(Math.random() * 4) + 2;
                 
 
-
-                //create an array of colors
-                let colors = [
-                    //white
-                    [1.0, 1.0, 1.0, 1.0],
-                    //yellow
-                    [1.0, 1.0, 0.0, 1.0],
-                    //red
-                    [1.0, 0.0, 0.0, 1.0],
-                    //blue
-                    [0.0, 0.0, 1.0, 1.0],
-                    //purple
-                    [1.0, 0.0, 1.0, 1.0],
-                    //orange
-                    [1.0, 0.5, 0.0, 1.0],
-                    //pink
-                    [1.0, 0.0, 0.5, 1.0],
-                    
+                let recepTextures = [
+                    "images/recep.jpg",
+                    "images/recep2.png",
                 ]
 
-                //pick a random color for petalColor
-                let petalColor = colors[Math.floor(Math.random() * colors.length)];
+                let petalTextures = [
+                    "images/petal2.jpeg",
+                    "images/petal3.jpg",
+                    "images/petal4.jpg",
+                    "images/petal5.jpeg",
+                    "images/petal6.jpg",
+                    "images/petal7.png",
+                    "images/petal8.jpg",
+                    "images/petal9.png",
+                ]
 
-                //pick a random color for recepColor but only from white or yellow (first two colors)
-                let recepColor = colors[Math.floor(Math.random() * 2)];
+                let stemTextures = [
+                    "images/stem.jpeg",
+                    "images/stem2.png",
+                    "images/stem3.jpg",
+                    "images/stem4.png",
+                ]
 
-                //stem color should be green
-                let stemColor = [0.0, 1.0, 0.0, 1.0];
+                //pick a random texture from petalTextures
+                let petalTexture = new CGFtexture(this.scene, petalTextures[Math.floor(Math.random() * petalTextures.length)]);
+                let petalColor = new CGFappearance(this.scene);
+                petalColor.setTexture(petalTexture);
+                petalColor.setTextureWrap('REPEAT', 'REPEAT');
+                petalColor.setShininess(10.0);
 
-                //leaf color should also be green
-                let leafColor = [0.0, 1.0, 0.0, 1.0];
-               
+                //pick a random texture from recepTextures
+                let recepTexture = new CGFtexture(this.scene, recepTextures[Math.floor(Math.random() * recepTextures.length)]);
+                let recepColor = new CGFappearance(this.scene);
+                recepColor.setTexture(recepTexture);
+                recepColor.setTextureWrap('REPEAT', 'REPEAT');
+                recepColor.setShininess(10.0);
+
+                //pick a random texture from stemTextures
+                let stemTexture = new CGFtexture(this.scene, stemTextures[Math.floor(Math.random() * stemTextures.length)]);
+                let stemColor = new CGFappearance(this.scene);
+                stemColor.setTexture(stemTexture);
+                stemColor.setTextureWrap('REPEAT', 'REPEAT');
+                stemColor.setShininess(10.0);
+
+
 
                 let flower = new MyFlower(
                     this.scene, numPetals, flowerRadius,
                     receptacleRadius, stemRadius, numStems,
-                    petalColor, recepColor, stemColor, leafColor
+                    petalColor, recepColor, stemColor, stemColor
                 );
 
                 // Posição baseada no índice e no espaço entre as flores, 

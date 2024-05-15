@@ -19,3 +19,9 @@ ao animar, animar tambem o corpo (leve osciliaçao)
 
 arranjar melhores texturas (sem sombras)
 estão muito longas
+
+
+
+## CRIATIVIDADE
+
+ter muitas flores, fazer um prado realista, espalhar tudo

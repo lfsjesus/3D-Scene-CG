@@ -19,7 +19,7 @@ export class MyHive extends CGFobject {
         woodenMaterial.setSpecular(1, 1, 1, 1);
         woodenMaterial.setShininess(10.0);
 
-        let polenTexture = new CGFtexture(this.scene, 'images/pollen.jpeg');
+        let polenTexture = new CGFtexture(this.scene, 'images/hive.png');
         let polenMaterial = new CGFappearance(this.scene);
         polenMaterial.setTexture(polenTexture);
         polenMaterial.setTextureWrap('REPEAT', 'REPEAT');

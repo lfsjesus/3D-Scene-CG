@@ -20,14 +20,11 @@ export class MyFlower extends CGFobject {
         this.leafColor = leafColor;
 
         
+        //MATERIALS FOR THE FLOWER
 
-        let recepTexture = new CGFtexture(this.scene, 'images/recep.jpg');
-        let recepMaterial = new CGFappearance(this.scene);
-        recepMaterial.setTexture(recepTexture);
-        recepMaterial.setTextureWrap('REPEAT', 'REPEAT');
+        this.initMaterials(stemColor, petalColor);
 
-
-        this.receptacle = new MyReceptacle(scene, 16, 8, receptacleRadius, recepMaterial);
+        this.receptacle = new MyReceptacle(scene, 16, 8, receptacleRadius, this.recepMaterial);
 
         this.pollen = new MyPollen(scene, 16, 8, stemRadius * 2);
 
@@ -95,23 +92,31 @@ export class MyFlower extends CGFobject {
 
         this.pollenHeight += 1.5
 
-        //MATERIALS FOR THE FLOWER
+    }
 
+    initMaterials(stemColor, petalColor) {
+        let stemTexture = new CGFtexture(this.scene, 'images/stem4.png');
         this.stemMat = new CGFappearance(this.scene);
-        this.stemMat.setAmbient(stemColor[0], stemColor[1], stemColor[2], stemColor[3]);
-        this.stemMat.setDiffuse(stemColor[0], stemColor[1], stemColor[2], stemColor[3]);
-        this.stemMat.setSpecular(stemColor[0], stemColor[1], stemColor[2], stemColor[3]);
+        this.stemMat.setTexture(stemTexture);
+        this.stemMat.setTextureWrap('REPEAT', 'REPEAT');
         this.stemMat.setShininess(10.0);
 
-
+        let recepTexture = new CGFtexture(this.scene, 'images/recep.jpg');
+        this.recepMaterial = new CGFappearance(this.scene);
+        this.recepMaterial.setTexture(recepTexture);
+        this.recepMaterial.setTextureWrap('REPEAT', 'REPEAT');
+        this.recepMaterial.setShininess(10.0);
+    
+        let petalTexture = new CGFtexture(this.scene, 'images/petal7.png');
         this.petalMat = new CGFappearance(this.scene);
-        this.petalMat.setAmbient(petalColor[0], petalColor[1], petalColor[2], petalColor[3]);
-        this.petalMat.setDiffuse(petalColor[0], petalColor[1], petalColor[2], petalColor[3]);
-        this.petalMat.setSpecular(petalColor[0], petalColor[1], petalColor[2], petalColor[3]);
+        this.petalMat.setTexture(petalTexture);
+        this.petalMat.setTextureWrap('REPEAT', 'REPEAT');
         this.petalMat.setShininess(10.0);
 
 
+    
     }
+
 
     display() {
         let stemHeight = 0;
@@ -188,6 +193,7 @@ export class MyFlower extends CGFobject {
         // MyReceptacle
         this.scene.pushMatrix();
         this.scene.rotate(Math.PI, 1, 0, 0);
+        this.scene.translate(0, 0, 0.15);
         this.receptacle.display();
         this.scene.popMatrix();
 

@@ -25,11 +25,11 @@ export class MyInterface extends CGFinterface {
 
         // Slider para as dimensões do jardim
         //this.gui.add(this.scene, 'gardenRows', 1, 10).name('Garden Rows').onChange(this.scene.updateGarden.bind(this.scene));
-        this.gui.add(this.scene, 'gardenRows', 1, 10).name('Garden Rows');
-        this.gui.add(this.scene, 'gardenCols', 1, 10).name('Garden Columns');
+        this.gui.add(this.scene, 'gardenRows', 1, 10).name('Garden Rows').onChange(this.scene.updateGardenDimensions.bind(this.scene));
+        this.gui.add(this.scene, 'gardenCols', 1, 10).name('Garden Columns').onChange(this.scene.updateGardenDimensions.bind(this.scene));
 
         // Slider para a distância entre as flores
-        this.gui.add(this.scene, 'flowerSpacing', 1, 10).name('Flower Spacing');
+        this.gui.add(this.scene, 'flowerSpacing', 1, 10).name('Flower Spacing').onChange(this.scene.updateGardenDimensions.bind(this.scene));
 
         this.gui.add(this.scene, 'speedFactor', 0.1, 3).name('Speed Factor');
 

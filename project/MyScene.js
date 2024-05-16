@@ -60,9 +60,9 @@ export class MyScene extends CGFscene {
     this.speedFactor = 0.5;
     this.beeScale = 1;
 
-    //this.garden = new MyGarden(this, this.gardenRows, this.gardenCols, this.flowerSpacing);
+    this.garden = new MyGarden(this, this.gardenRows, this.gardenCols, this.flowerSpacing);
 
-    this.garden = new MyGarden(this, 1, 1, this.flowerSpacing);
+    //this.garden = new MyGarden(this, 1, 1, this.flowerSpacing);
 
 
     this.enableTextures(true);
@@ -70,6 +70,12 @@ export class MyScene extends CGFscene {
     //bee animation
     this.setUpdatePeriod(50); // **at least** 50 ms between animations
   }
+
+  updateGardenDimensions() {
+    // Update the garden with new dimensions
+    this.garden = new MyGarden(this, this.gardenRows, this.gardenCols, this.flowerSpacing);
+  }
+
 
   initCameras() {
     this.defaultCamera = new CGFcamera(

@@ -60,9 +60,9 @@ export class MyScene extends CGFscene {
     this.speedFactor = 0.5;
     this.beeScale = 1;
 
-    this.garden = new MyGarden(this, 10, 10, this.flowerSpacing);
+    //this.garden = new MyGarden(this, this.gardenRows, this.gardenCols, this.flowerSpacing);
 
-    //this.garden = new MyGarden(this, 1, 1, this.flowerSpacing);
+    this.garden = new MyGarden(this, 1, 1, this.flowerSpacing);
 
 
     this.enableTextures(true);
@@ -265,7 +265,7 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
     this.pushMatrix();
-    this.translate(12, 0, 0);
+    //this.translate(12, 0, 0);
     this.garden.display();
     this.popMatrix();
 
@@ -275,7 +275,6 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
     this.pushMatrix();
-    //this.translate(0, 30, 0);
     this.scale(this.beeScale, this.beeScale, this.beeScale);
     this.translate(12, 0, 0);
     //this.bee.display();

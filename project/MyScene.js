@@ -8,6 +8,7 @@ import { MyPollen } from "./Objects/MyPollen.js";
 import { MyHive } from "./Objects/MyHive.js";
 import { MyGrass } from './Objects/MyGrass.js';
 import { MyRock} from './Objects/MyRock.js';
+import { MySingularGrass } from "./Objects/MySingularGrass.js";
 
 /**
  * MyScene
@@ -49,8 +50,8 @@ export class MyScene extends CGFscene {
     this.bee = new MyBee(this);
     this.pollen = new MyPollen(this, 16, 8, 0.5);
     this.hive = new MyHive(this);
-    this.grass = new MyGrass(this, 50, 50, 1000); // 500 blades of grass over a 50x50 area
-    
+    this.grass = new MyGrass(this, 50, 50, 1000, 3); // 500 blades of grass over a 50x50 area
+    this.singularGrass = new MySingularGrass(this, 0.5, 2, 3);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -272,32 +273,35 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
     this.pushMatrix();
-    this.translate(12, 0, 0);
-    this.garden.display();
+    //this.garden.display();
     this.popMatrix();
 
     this.pushMatrix();
     this.scale(3.5, 3.5, 3.5);
     this.translate(0, 0.5, 0);
-    this.rockSet.display();
+    //this.rockSet.display();
     this.popMatrix();
 
     this.pushMatrix();
     this.scale(this.beeScale, this.beeScale, this.beeScale);
     this.translate(12, 0, 0);
-    this.bee.display();
+    //this.bee.display();
     this.popMatrix();
 
 
     this.pushMatrix();
     this.translate(0, 12, 0);
-    this.hive.display();
+    //this.hive.display();
     this.popMatrix();
 
     this.pushMatrix();
-    this.translate(0, 0, 0);
     this.scale(1.3, 1.3, 1.3);
-    this.grass.display();
+    //this.grass.display();
+    this.popMatrix();
+
+    this.pushMatrix();
+    this.translate(0, 0, 0.1);
+    this.singularGrass.display();
     this.popMatrix();
 
 

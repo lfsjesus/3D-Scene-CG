@@ -1,12 +1,14 @@
+// MyGrass.js
 import { CGFobject, CGFappearance } from '../../lib/CGF.js';
-import { MyTriangle } from '../Primitives/MyTriangle.js';
+import { MySingularGrass } from './MySingularGrass.js';
 
 export class MyGrass extends CGFobject {
-    constructor(scene, width, height, numBlades) {
+    constructor(scene, width, height, numBlades, subdivisions) {
         super(scene);
         this.width = width;
         this.height = height;
         this.numBlades = numBlades;
+        this.subdivisions = subdivisions;
         this.blades = [];
         this.initGrass();
         this.initMaterials();
@@ -30,8 +32,8 @@ export class MyGrass extends CGFobject {
             let base = 0.05 + Math.random() * 0.1;
             let bladeHeight = 2.0 + Math.random() * 1.0; // Taller grass blades
 
-            // Create a new blade and add it to the blades array
-            let blade = new MyTriangle(this.scene, base, bladeHeight);
+            // Create a new subdivided blade and add it to the blades array
+            let blade = new MySingularGrass(this.scene, base, bladeHeight, this.subdivisions);
             this.blades.push({ blade, x, z, rotation: Math.random() * Math.PI * 2 });
         }
     }

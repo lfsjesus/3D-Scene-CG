@@ -19,6 +19,9 @@ export class MySingularGrass extends CGFobject {
             let b = this.base - (i * subBase * 0.3);
             this.triangles.push(new MyTriangle(this.scene, b, subHeight, true));
         }
+        this.triangles.push(new MyTriangle(this.scene, this.base, this.height));
+
+
     }
 
     display() {
@@ -31,7 +34,7 @@ export class MySingularGrass extends CGFobject {
             this.scene.translate(0, yOffset, 0);
             triangle.display();
             this.scene.popMatrix();
-
+            
             // Display the upside-down triangle, connected to the first
             this.scene.pushMatrix();
             this.scene.translate(triangle.base, 0, 0);

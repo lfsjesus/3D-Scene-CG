@@ -123,7 +123,7 @@ export class MyScene extends CGFscene {
         let flower = flowerAndPosition[0];
         let position = flowerAndPosition[1];
 
-        //this.bee.goToPosition(position);
+        this.bee.goToPosition(position);
         this.bee.goDown(flower.pollen, flower.pollenHeight, flower.pollenOffsetZ);
               
       }
@@ -235,7 +235,7 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
     this.scale(3.5, 3.5, 3.5);
     this.translate(0, 0.5, 0);
-    this.rockSet.display();
+    //this.rockSet.display();
     this.popMatrix();
 
     this.pushMatrix();
@@ -247,7 +247,7 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
     this.translate(0, 12, 0);
-    this.hive.display();
+    //this.hive.display();
     this.popMatrix();
 
     /*

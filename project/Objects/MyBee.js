@@ -96,8 +96,9 @@ export class MyBee extends CGFobject {
         this.elapsedTime = 0; // Reset elapsed time
         this.parabolicMovement = true; // Flag to indicate parabolic movement
 
+        this.noMovementAllowed = true;
+
         if (reachedHive) {
-            this.noMovementAllowed = true;
             this.pollenHeight = 20; // Hive height
         }
     }
@@ -167,7 +168,6 @@ export class MyBee extends CGFobject {
 
                 if(!this.reachedHive){
                     this.stopped = true; // If not reaching the hive, stop the bee
-                    this.noMovementAllowed = true;
                 } 
 
                 else{

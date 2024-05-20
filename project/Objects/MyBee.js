@@ -33,6 +33,7 @@ export class MyBee extends CGFobject {
         this.oldVelocity = 0;
         this.pollenHeight = 0;
         this.pollenOffsetZ = 0;
+        this.noMovementAllowed = false;
 
         this.initMaterials(scene);
 
@@ -66,7 +67,6 @@ export class MyBee extends CGFobject {
         this.flapAmplitude = 20; // Degrees: max rotation angle of the wings
         this.flapPeriod = 200; // Flapping cycle every 200 milliseconds
 
-        this.goDownAnimation = false;
         this.stopped = false;
         this.pickUpAnimation = false;
     }
@@ -97,6 +97,7 @@ export class MyBee extends CGFobject {
         this.parabolicMovement = true; // Flag to indicate parabolic movement
 
         if (reachedHive) {
+            this.noMovementAllowed = true;
             this.pollenHeight = 20; // Hive height
         }
     }
@@ -104,10 +105,9 @@ export class MyBee extends CGFobject {
     
 
     goDown(pollen, pollenHeight, pollenOffsetZ) {
-        if (!this.goDownAnimation && !this.stopped) {
+        if (!this.stopped) {
             this.oldVelocity = { ...this.velocity }; // Store the current velocity
             this.velocity = { x: 0, y: -1, z: 0 }; // Set vertical downward velocity
-            this.goDownAnimation = true;
             this.pollenHeight = pollenHeight;
             this.pollenOffsetZ = pollenOffsetZ;
         }
@@ -164,9 +164,15 @@ export class MyBee extends CGFobject {
                 this.position.z = this.targetPosition[1];
                 this.velocity = { x: 0, y: 0, z: 0 }; // Stop the bee
                 this.parabolicMovement = false;
-                this.goDownAnimation = false;
 
-                if(!this.reachedHive) this.stopped = true; // If not reaching the hive, stop the bee
+                if(!this.reachedHive){
+                    this.stopped = true; // If not reaching the hive, stop the bee
+                    this.noMovementAllowed = true;
+                } 
+
+                else{
+                    this.dropPollen(); // Drop the pollen if the bee reached the hive
+                }
 
                 
                 return;
@@ -204,6 +210,7 @@ export class MyBee extends CGFobject {
     // Pick Up Animation
     if (this.pickUpAnimation) {
         if (this.position.y >= this.defaultY) {
+            this.noMovementAllowed = false; //reset the movement flag
             this.pickUpAnimation = false;
             this.stopped = false;
             this.velocity = { ...this.oldVelocity }; // Restore the old velocity
@@ -231,6 +238,9 @@ export class MyBee extends CGFobject {
     
 
     turn(angle) {
+        if (this.noMovementAllowed) return; // Do nothing
+
+
         let speed = Math.sqrt(this.velocity.x ** 2 + this.velocity.z ** 2);
         // Adjust orientation by the given angle (in radians)
         this.orientation += angle;
@@ -241,6 +251,9 @@ export class MyBee extends CGFobject {
     }
     
     accelerate(increment) {
+        if (this.noMovementAllowed) return; // Do nothing
+
+
         // Adjust the speed by modifying the magnitude of the velocity vector
         let speed = Math.sqrt(this.velocity.x ** 2 + this.velocity.z ** 2) + increment;
         speed = Math.min(speed, this.maxSpeed); // Clamp speed to the maximum speed

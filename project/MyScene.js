@@ -142,7 +142,6 @@ export class MyScene extends CGFscene {
     }
 
     if (this.gui.isKeyPressed("KeyO")) {
-
       this.bee.goToPosition([-13,-1.5], true);
       
     }
@@ -235,7 +234,7 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
     this.scale(3.5, 3.5, 3.5);
     this.translate(0, 0.5, 0);
-    //this.rockSet.display();
+    this.rockSet.display();
     this.popMatrix();
 
     this.pushMatrix();
@@ -247,7 +246,7 @@ export class MyScene extends CGFscene {
 
     this.pushMatrix();
     this.translate(0, 12, 0);
-    //this.hive.display();
+    this.hive.display();
     this.popMatrix();
 
     /*

@@ -45,7 +45,7 @@ export class MyScene extends CGFscene {
 
     this.plane = new MyPlane(this, 30, planeMaterial);
     this.panorama = new MyPanorama(this, new CGFtexture(this, 'images/panorama.jpg'), 200);
-    this.rockSet = new MyRockSet(this, 3);
+    this.rockSet = new MyRockSet(this, 3, 1);
     this.bee = new MyBee(this);
     this.pollen = new MyPollen(this, 16, 8, 0.5);
     this.hive = new MyHive(this);

@@ -3,9 +3,10 @@ import { MyRock } from './MyRock.js';
 import { CGFtexture, CGFappearance } from '../../lib/CGF.js';
 
 export class MyRockSet extends CGFobject {
-    constructor(scene, layers) {
+    constructor(scene, layers, hiveFlag = 0) {
         super(scene);
         this.layers = layers;
+        this.hiveFlag = hiveFlag;
         
         this.rocks = [];
         this.rockSpacing = 1.8;
@@ -14,15 +15,15 @@ export class MyRockSet extends CGFobject {
         // Textures
         let textures = [
             new CGFtexture(this.scene, 'images/rock.jpg'),
-            new CGFtexture(this.scene, 'images/rock2.jpg'),
-            new CGFtexture(this.scene, 'images/rock3.jpg')
+            new CGFtexture(this.scene, 'images/rock3.jpg'),
+            new CGFtexture(this.scene, 'images/rock5.jpg')
         ];
 
         // Build the pyramid
         let currentLayer = 0;
         let yOffset = 0;
 
-        while (currentLayer < this.layers) {
+        while (currentLayer < this.layers - this.hiveFlag) {
             // Determine the number of rocks in this layer
             let rocksInThisLayer = (this.layers - currentLayer) * (this.layers - currentLayer);
             let rocksPerSide = this.layers - currentLayer; // Number of rocks along one side of the current layer

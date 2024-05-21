@@ -7,7 +7,7 @@ import { MyReceptacle } from "./MyReceptacle.js"
 import { MyPollen } from "./MyPollen.js";
 
 export class MyFlower extends CGFobject {
-    constructor(scene, numPetals, flowerRadius, receptacleRadius, stemRadius, numStems, petalColor, recepColor, stemColor, leafColor) {
+    constructor(scene, numPetals, flowerRadius, receptacleRadius, stemRadius, numStems, petalColor, recepColor, stemColor, leafColor, pollenMaterial = undefined) {
         super(scene);
         this.flowerRadius = flowerRadius;
         this.receptacleRadius = receptacleRadius;
@@ -18,13 +18,14 @@ export class MyFlower extends CGFobject {
         this.recepMat = recepColor;
         this.stemMat = stemColor;
         this.leafColor = leafColor;
+        this.pollenMaterial = pollenMaterial;
 
 
 
         this.receptacle = new MyReceptacle(scene, 8, 4, receptacleRadius, this.recepMat);
 
         //there should be a 70% chance of having a pollen in the flower
-        if (Math.random() < 0.7) this.pollen = new MyPollen(scene, 8, 4, stemRadius * 2);
+        if (Math.random() < 0.7) this.pollen = new MyPollen(scene, 8, 4, stemRadius * 2, this.pollenMaterial);
         else this.pollen = null;
         
         

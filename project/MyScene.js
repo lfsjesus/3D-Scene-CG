@@ -74,7 +74,7 @@ export class MyScene extends CGFscene {
 
   updateGardenDimensions() {
     // Update the garden with new dimensions
-    this.garden = new MyGarden(this, this.gardenRows, this.gardenCols, this.flowerSpacing);
+    this.garden.updateDimensions(this.gardenRows, this.gardenCols, this.flowerSpacing); 
   }
 
 

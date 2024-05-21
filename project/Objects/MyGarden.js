@@ -7,89 +7,106 @@ export class MyGarden extends CGFobject {
         this.scene = scene;
         this.rows = rows;
         this.cols = cols;
+        this.flowerSpacing = flowerSpacing;
         this.flowers = [];
 
-        for (let i = 0; i < rows; i++) {
-            for (let j = 0; j < cols; j++) {
+        this.initFlowers();
+    }
 
-                //using javascript random fucntion, num petals should be a random number between 3 and 6
-                let numPetals = Math.floor(Math.random() * 3) + 3;
+    initFlowers() {
+        this.recepTextures = [
+            "images/recep.jpg",
+            "images/recep2.png",
+        ];
 
-                //using javascript random function, flower radius should be a random number between 1,5 and 3,5
-                let flowerRadius = Math.random() * 2 + 1.5;
-                
-                //using javascript random function, receptacle radius should be a random number between 0.1 and 0.4
-                let receptacleRadius = Math.random() * 0.3 + 0.1;
-            
-                //using javascript random function, stem radius should be a random number between 0.05 and 0.15
-                let stemRadius = Math.random() * 0.1 + 0.05;
+        this.petalTextures = [
+            "images/petal2.jpeg",
+            "images/petal3.jpg",
+            "images/petal4.jpg",
+            "images/petal5.jpeg",
+            "images/petal6.jpg",
+            "images/petal7.png",
+            "images/petal8.jpg",
+            "images/petal9.png",
+        ];
 
-                //using javascript random function, number of stems should be a random number between 2 and 5
-                let numStems = Math.floor(Math.random() * 4) + 2;
-                
+        this.stemTextures = [
+            "images/stem.jpeg",
+            "images/stem2.png",
+            "images/stem3.jpg",
+            "images/stem4.png",
+        ];
 
-                let recepTextures = [
-                    "images/recep.jpg",
-                    "images/recep2.png",
-                ]
+        this.pollenMaterial = new CGFappearance(this.scene);
+        this.pollenTexture = new CGFtexture(this.scene, 'images/pollen.jpeg');
+        this.pollenMaterial.setTexture(this.pollenTexture);
+        this.pollenMaterial.setTextureWrap('REPEAT', 'REPEAT');
+        this.pollenMaterial.setDiffuse(0.8, 0.5, 0.1, 1);
+        this.pollenMaterial.setSpecular(0.1, 0.1, 0.1, 1);
+        this.pollenMaterial.setShininess(10);
 
-                let petalTextures = [
-                    "images/petal2.jpeg",
-                    "images/petal3.jpg",
-                    "images/petal4.jpg",
-                    "images/petal5.jpeg",
-                    "images/petal6.jpg",
-                    "images/petal7.png",
-                    "images/petal8.jpg",
-                    "images/petal9.png",
-                ]
+        // Create arrays to store the CGFtexture instances
+        this.recepTexturesObj = this.recepTextures.map(path => new CGFtexture(this.scene, path));
+        this.petalTexturesObj = this.petalTextures.map(path => new CGFtexture(this.scene, path));
+        this.stemTexturesObj = this.stemTextures.map(path => new CGFtexture(this.scene, path));
 
-                let stemTextures = [
-                    "images/stem.jpeg",
-                    "images/stem2.png",
-                    "images/stem3.jpg",
-                    "images/stem4.png",
-                ]
+        for (let i = 0; i < this.rows; i++) {
+            for (let j = 0; j < this.cols; j++) {
+                this.createFlower(i, j, this.recepTexturesObj, this.petalTexturesObj, this.stemTexturesObj, this.pollenMaterial);
+            }
+        }
+    }
 
-                //pick a random texture from petalTextures
-                let petalTexture = new CGFtexture(this.scene, petalTextures[Math.floor(Math.random() * petalTextures.length)]);
-                let petalColor = new CGFappearance(this.scene);
-                petalColor.setTexture(petalTexture);
-                petalColor.setTextureWrap('REPEAT', 'REPEAT');
-                petalColor.setShininess(10.0);
+    createFlower(i, j, recepTexturesObj, petalTexturesObj, stemTexturesObj, pollenMaterial) {
+        let numPetals = Math.floor(Math.random() * 3) + 3;
+        let flowerRadius = Math.random() * 2 + 1.5;
+        let receptacleRadius = Math.random() * 0.3 + 0.1;
+        let stemRadius = Math.random() * 0.1 + 0.05;
+        let numStems = Math.floor(Math.random() * 4) + 2;
 
-                //pick a random texture from recepTextures
-                let recepTexture = new CGFtexture(this.scene, recepTextures[Math.floor(Math.random() * recepTextures.length)]);
-                let recepColor = new CGFappearance(this.scene);
-                recepColor.setTexture(recepTexture);
-                recepColor.setTextureWrap('REPEAT', 'REPEAT');
-                recepColor.setShininess(10.0);
+        let petalColor = new CGFappearance(this.scene);
+        petalColor.setTexture(petalTexturesObj[Math.floor(Math.random() * petalTexturesObj.length)]);
+        petalColor.setTextureWrap('REPEAT', 'REPEAT');
+        petalColor.setShininess(10.0);
 
-                //pick a random texture from stemTextures
-                let stemTexture = new CGFtexture(this.scene, stemTextures[Math.floor(Math.random() * stemTextures.length)]);
-                let stemColor = new CGFappearance(this.scene);
-                stemColor.setTexture(stemTexture);
-                stemColor.setTextureWrap('REPEAT', 'REPEAT');
-                stemColor.setShininess(10.0);
+        let recepColor = new CGFappearance(this.scene);
+        recepColor.setTexture(recepTexturesObj[Math.floor(Math.random() * recepTexturesObj.length)]);
+        recepColor.setTextureWrap('REPEAT', 'REPEAT');
+        recepColor.setShininess(10.0);
 
+        let stemColor = new CGFappearance(this.scene);
+        stemColor.setTexture(stemTexturesObj[Math.floor(Math.random() * stemTexturesObj.length)]);
+        stemColor.setTextureWrap('REPEAT', 'REPEAT');
+        stemColor.setShininess(10.0);
 
+        let flower = new MyFlower(
+            this.scene, numPetals, flowerRadius,
+            receptacleRadius, stemRadius, numStems,
+            petalColor, recepColor, stemColor, stemColor, pollenMaterial
+        );
 
-                let flower = new MyFlower(
-                    this.scene, numPetals, flowerRadius,
-                    receptacleRadius, stemRadius, numStems,
-                    petalColor, recepColor, stemColor, stemColor
-                );
+        let xPosition = i * this.flowerSpacing + Math.random() * this.flowerSpacing / 1.5;
+        let yPosition = j * this.flowerSpacing + Math.random() * this.flowerSpacing / 1.5;
 
-                // Posição baseada no índice e no espaço entre as flores, 
-                // also add a small random value to the position to make it look more natural
-                // each flower should be placed in a random position between 0 and flowerSpacing
+        this.flowers.push({ flower: flower, position: [xPosition, yPosition], row: i, col: j });
+    }
 
-                let xPosition = i * flowerSpacing + Math.random() * flowerSpacing / 1.5;
-                let yPosition = j * flowerSpacing + Math.random() * flowerSpacing / 1.5;
+    updateDimensions(newRows, newCols, flowerSpacing) {
+        this.flowerSpacing = flowerSpacing;
 
-               
-                this.flowers.push({ flower: flower, position: [xPosition, yPosition] });
+        // Filter out flowers that are within the new dimensions
+        this.flowers = this.flowers.filter(flower => flower.row < newRows && flower.col < newCols);
 
+        // Update the dimensions
+        this.rows = newRows;
+        this.cols = newCols;
+
+        // Add new flowers to fill the new rows and columns
+        for (let i = 0; i < newRows; i++) {
+            for (let j = 0; j < newCols; j++) {
+                if (!this.flowers.find(flower => flower.row === i && flower.col === j)) {
+                    this.createFlower(i, j, this.recepTexturesObj, this.petalTexturesObj, this.stemTexturesObj, this.pollenMaterial);
+                }
             }
         }
     }
@@ -100,7 +117,7 @@ export class MyGarden extends CGFobject {
             let position = item.position;
 
             this.scene.pushMatrix();
-            this.scene.translate(position[0], 0, position[1]); //A altura é o eixo y neste caso
+            this.scene.translate(position[0], 0, position[1]); // The height is the y-axis in this case
             flower.display();
             this.scene.popMatrix();
         }

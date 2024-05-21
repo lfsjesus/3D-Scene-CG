@@ -2,23 +2,13 @@ import { CGFobject } from '../../lib/CGF.js';
 import { CGFtexture, CGFappearance } from '../../lib/CGF.js';
 
 export class MyPollen extends CGFobject {
-    constructor(scene, slices, stacks, radius, x, y, z) {
+    constructor(scene, slices, stacks, radius, material = undefined) {
         super(scene);
         this.slicesCount = slices;
         this.stacksCount = stacks * 2;  // Multiplied by 2 to account for both hemispheres
         this.radius = radius;
-        this.initMaterials(scene);
+        this.material = material;
         this.initBuffers();
-    }
-
-    initMaterials(scene) {
-        this.material = new CGFappearance(scene);
-        this.texture = new CGFtexture(scene, 'images/pollen.jpeg');
-        this.material.setTexture(this.texture);
-        this.material.setTextureWrap('REPEAT', 'REPEAT');
-        this.material.setDiffuse(0.8, 0.5, 0.1, 1);
-        this.material.setSpecular(0.1, 0.1, 0.1, 1);
-        this.material.setShininess(10);
     }
 
     initBuffers() {
@@ -78,8 +68,8 @@ export class MyPollen extends CGFobject {
     
 
     display() {
+        if(this.material != undefined) this.material.apply();
         this.scene.pushMatrix();
-        this.material.apply();
         super.display();
         this.scene.popMatrix();
     }

@@ -48,15 +48,15 @@ export class MyScene extends CGFscene {
     this.pollen = new MyPollen(this, 16, 8, 0.5);
     this.hive = new MyHive(this);
     this.bee = new MyBee(this, this.hive);
-    this.grass = new MyGrass(this, 50, 50, 1500, 3); // 500 blades of grass over a 50x50 area
+    this.grass = new MyGrass(this, 100, 100, 1500, 3); // 500 blades of grass over a 50x50 area
     this.shader = new CGFshader(this.gl, "shaders/shader.vert", "shaders/shader.frag");
 
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.scaleFactor = 1;
-    this.gardenRows = 5; // número de linhas no jardim
-    this.gardenCols = 5; // número de colunas no jardim
-    this.flowerSpacing = 7 // distância entre as flores
+    this.gardenRows = 10; // número de linhas no jardim
+    this.gardenCols = 10; // número de colunas no jardim
+    this.flowerSpacing = 8 // distância entre as flores
     this.speedFactor = 0.5;
     this.beeScale = 1;
 
@@ -231,13 +231,13 @@ export class MyScene extends CGFscene {
 
 
     this.pushMatrix();
-    this.translate(12, 0, 0);
+    this.translate(-40, 0, -40);
     this.scale(this.beeScale, this.beeScale, this.beeScale);
     this.bee.display();
     this.popMatrix();
 
     this.pushMatrix();
-    this.translate(12,0,0);
+    this.translate(-40, 0,-40);
     this.garden.display();
     this.popMatrix();
 

@@ -68,16 +68,19 @@ export class MyScene extends CGFscene {
     this.rock2 = new MyRock(this, 10, 5, 5, 0.5, 1, 1, 0, rockMaterial);
     this.rock3 = new MyRock(this, 10, 5, 5, 0.5, 1, 1, 0, rockMaterial2);
 
+    //Scene Decorations
+    this.littleFlowerPatch = new MyGarden(this, 3, 4, 9);
+    this.grass2 = new MyGrass(this, 40, 40, 70, 1);
+    this.rockSet2 = new MyRockSet(this, 2, 0);
+    this.grass3 = new MyGrass(this, 10, 30, 20, 1);
 
-    this.littleFlowerPatch = new MyGarden(this, 3, 4, 5);
-    this.littleFlowerPatch2 = new MyGarden(this, 7, 5, 15);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.scaleFactor = 1;
-    this.gardenRows = 10; // número de linhas no jardim
-    this.gardenCols = 10; // número de colunas no jardim
-    this.flowerSpacing = 8 // distância entre as flores
+    this.gardenRows = 7; // número de linhas no jardim
+    this.gardenCols = 7; // número de colunas no jardim
+    this.flowerSpacing = 11 // distância entre as flores
     this.speedFactor = 0.5;
     this.beeScale = 1;
 
@@ -99,7 +102,7 @@ export class MyScene extends CGFscene {
       1.0,
       0.1,
       1000,
-      vec3.fromValues(40, 25, 60),
+      vec3.fromValues(40, 30, 60),
       vec3.fromValues(0, 0, 0)
     );
   }
@@ -128,8 +131,8 @@ export class MyScene extends CGFscene {
     }
     if (this.gui.isKeyPressed("KeyR")) {
         // Reset bee's position, orientation, and velocity
-        this.bee.position = { x: 0, y: 20, z: 0 };
-        this.bee.orientation = 0;
+        this.bee.position = { x: 70, y: 20, z: 80 };
+        this.bee.orientation = 8.5;
         this.bee.velocity = { x: 0, y: 0, z: 0 };
     }
 
@@ -159,7 +162,7 @@ export class MyScene extends CGFscene {
     }
 
     if (this.gui.isKeyPressed("KeyO")) {
-      this.bee.goToPosition([-13,-1.5], true);
+      this.bee.goToPosition([-13,29], true);
       
     }
   }
@@ -232,7 +235,7 @@ export class MyScene extends CGFscene {
 
     // ---- BEGIN Primitive drawing section
     this.pushMatrix();
-
+    
     this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
 
     this.pushMatrix();
@@ -248,28 +251,20 @@ export class MyScene extends CGFscene {
     this.plane.display();
     this.popMatrix();
 
- 
-
-
-    this.pushMatrix();
-    this.translate(-40, 0, -40);
-    this.scale(this.beeScale, this.beeScale, this.beeScale);
-    this.bee.display();
-    this.popMatrix();
-
     this.pushMatrix();
     this.translate(-40, 0,-40);
     this.garden.display();
     this.popMatrix();
 
     this.pushMatrix();
+    this.translate(-50, 3, -10);
     this.scale(3.5, 3.5, 3.5);
-    this.translate(0, 0.5, 0);
     this.rockSet.display();
     this.popMatrix();
 
     this.pushMatrix();
-    this.translate(0, 12, 0);
+    this.translate(-50, 14, -10);
+    this.rotate(Math.PI/4, 0, 1, 0);
     this.hive.display();
     this.popMatrix();
 
@@ -281,7 +276,7 @@ export class MyScene extends CGFscene {
 
 
     this.pushMatrix();
-    this.translate(55, 0.5, 25);
+    this.translate(55, 0.5, 15);
     this.rock2.display();
     this.popMatrix();
 
@@ -291,14 +286,10 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
     this.pushMatrix();
-    this.translate(-80, 0, -40);
+    this.translate(-20, 0, -100);
     this.littleFlowerPatch.display();
     this.popMatrix();
 
-    this.pushMatrix();
-    this.translate(50, 0, -30);
-    this.littleFlowerPatch2.display();
-    this.popMatrix();
 
     
     this.pushMatrix();
@@ -308,6 +299,33 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
 
+    this.pushMatrix();
+    this.translate(-100, 0, 0);
+    this.setActiveShader(this.shader);
+    this.grass2.display();
+    this.setActiveShader(this.defaultShader);
+    this.popMatrix();
+
+    this.pushMatrix();
+    this.translate(62, 0, -53);
+    this.setActiveShader(this.shader);
+    this.grass3.display();
+    this.setActiveShader(this.defaultShader);
+    this.popMatrix();
+
+
+    this.pushMatrix();
+    this.translate(-5, 3, 56);
+    this.scale(1.5, 1.5, 1.5);
+    this.rockSet2.display();
+    this.popMatrix();
+
+
+    this.pushMatrix();
+    this.translate(-40, 0, -40);
+    this.scale(this.beeScale, this.beeScale, this.beeScale);
+    this.bee.display();
+    this.popMatrix();
 
 
     this.popMatrix();

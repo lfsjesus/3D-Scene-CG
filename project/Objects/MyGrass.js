@@ -30,7 +30,7 @@ export class MyGrass extends CGFobject {
             let z = Math.random() * this.height - this.height / 2;
 
             // Randomize the size of each blade
-            let base = 0.2 + Math.random() * 0.1;
+            let base = 0.4 + Math.random() * 0.1;
             let bladeHeight = 2.0 + Math.random() * 5.0; // Taller grass blades
 
             // Create a new subdivided blade and add it to the blades array

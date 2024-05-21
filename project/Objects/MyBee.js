@@ -16,8 +16,8 @@ export class MyBee extends CGFobject {
         this.initAnimationProperties();
 
          // Bee's initial position and orientation
-        this.position = { x: 0, y: 20, z: 0 }; 
-        this.orientation = 0; // Orientation angle around the YY-axis (in radians)
+        this.position = { x: 70, y: 20, z: 80 };
+        this.orientation = 8.5; // Orientation angle around the YY-axis (in radians)
         this.velocity = { x: 0, y: 0, z: 0 };
         
 

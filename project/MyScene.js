@@ -68,6 +68,10 @@ export class MyScene extends CGFscene {
     this.rock2 = new MyRock(this, 10, 5, 5, 0.5, 1, 1, 0, rockMaterial);
     this.rock3 = new MyRock(this, 10, 5, 5, 0.5, 1, 1, 0, rockMaterial2);
 
+
+    this.littleFlowerPatch = new MyGarden(this, 3, 4, 5);
+    this.littleFlowerPatch2 = new MyGarden(this, 7, 5, 15);
+
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.scaleFactor = 1;
@@ -284,6 +288,16 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
     this.translate(50, 0.5, -70);
     this.rock3.display();
+    this.popMatrix();
+
+    this.pushMatrix();
+    this.translate(-80, 0, -40);
+    this.littleFlowerPatch.display();
+    this.popMatrix();
+
+    this.pushMatrix();
+    this.translate(50, 0, -30);
+    this.littleFlowerPatch2.display();
     this.popMatrix();
 
     

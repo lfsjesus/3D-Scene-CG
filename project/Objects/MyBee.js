@@ -9,8 +9,9 @@ import { CGFappearance } from '../../lib/CGF.js';
 import { MyPollen } from './MyPollen.js';
 
 export class MyBee extends CGFobject {
-    constructor(scene) {
+    constructor(scene, hive) {
         super(scene);
+        this.hive = hive;
 
         this.initAnimationProperties();
 
@@ -146,6 +147,7 @@ export class MyBee extends CGFobject {
             this.droppingPollen = true;
             this.pollenDropPosition = { x: this.position.x, y: this.position.y, z: this.position.z };
             this.pollenDropStartTime = Date.now();
+            this.hive.addPollen(this.pollen); // Add the pollen to the hive
         }
     }
 

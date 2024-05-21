@@ -46,9 +46,9 @@ export class MyScene extends CGFscene {
     this.plane = new MyPlane(this, 30, planeMaterial);
     this.panorama = new MyPanorama(this, new CGFtexture(this, 'images/panorama.jpg'), 200);
     this.rockSet = new MyRockSet(this, 3, 1);
-    this.bee = new MyBee(this);
     this.pollen = new MyPollen(this, 16, 8, 0.5);
     this.hive = new MyHive(this);
+    this.bee = new MyBee(this, this.hive);
     //this.grass = new MyGrass(this, 50, 50, 1000, 3); // 500 blades of grass over a 50x50 area
     //this.singularGrass = new MySingularGrass(this, 0.5, 2, 3);
 
@@ -262,6 +262,9 @@ export class MyScene extends CGFscene {
     this.singularGrass.display();
     this.popMatrix();
     */
+
+    console.log(this.hive.pollens);
+  
 
 
 

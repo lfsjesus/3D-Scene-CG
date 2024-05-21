@@ -88,11 +88,24 @@ export class MyBee extends CGFobject {
     
         // Set up parameters for parabolic movement
         this.startPosition = { ...this.position }; // Store the starting position
-        this.midPoint = {
-            x: (this.startPosition.x + this.targetPosition[0]) / 2,
-            y: this.startPosition.y + 5, // Raise mid-point to create a parabola
-            z: (this.startPosition.z + this.targetPosition[1]) / 2
-        };
+
+        if(this.hiveTarget){
+            this.midPoint = {
+                x: (this.startPosition.x + this.targetPosition[0]) / 2,
+                y: this.startPosition.y + 15, // Raise mid-point to create a parabola
+                z: (this.startPosition.z + this.targetPosition[1]) / 2
+            };
+        }
+
+        else{
+            this.midPoint = {
+                x: (this.startPosition.x + this.targetPosition[0]) / 2,
+                y: this.startPosition.y + 5, // Raise mid-point to create a parabola
+                z: (this.startPosition.z + this.targetPosition[1]) / 2
+            };
+        }
+
+        
         this.totalTime = 2; // Total time for the parabolic trajectory
         this.elapsedTime = 0; // Reset elapsed time
         this.parabolicMovement = true; // Flag to indicate parabolic movement

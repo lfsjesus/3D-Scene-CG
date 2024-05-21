@@ -42,6 +42,18 @@ export class MyScene extends CGFscene {
     planeMaterial.setTextureWrap('REPEAT', 'REPEAT');
     planeMaterial.setShininess(10.0);
 
+
+    let rockMaterial = new CGFappearance(this);
+    rockMaterial.setTexture(new CGFtexture(this, 'images/rock.jpg'));
+    rockMaterial.setTextureWrap('REPEAT', 'REPEAT');
+    rockMaterial.setShininess(10.0);
+
+
+    let rockMaterial2 = new CGFappearance(this);
+    rockMaterial2.setTexture(new CGFtexture(this, 'images/rock3.jpg'));
+    rockMaterial2.setTextureWrap('REPEAT', 'REPEAT');
+    rockMaterial2.setShininess(10.0);
+
     this.plane = new MyPlane(this, 30, planeMaterial);
     this.panorama = new MyPanorama(this, new CGFtexture(this, 'images/panorama.jpg'), 200);
     this.rockSet = new MyRockSet(this, 3, 1);
@@ -50,6 +62,11 @@ export class MyScene extends CGFscene {
     this.bee = new MyBee(this, this.hive);
     this.grass = new MyGrass(this, 100, 100, 1500, 3); // 500 blades of grass over a 50x50 area
     this.shader = new CGFshader(this.gl, "shaders/shader.vert", "shaders/shader.frag");
+
+    // Other objects to make the scene more interesting
+    this.rock = new MyRock(this, 10, 5, 5, 0.5, 1, 1, 0, rockMaterial);
+    this.rock2 = new MyRock(this, 10, 5, 5, 0.5, 1, 1, 0, rockMaterial);
+    this.rock3 = new MyRock(this, 10, 5, 5, 0.5, 1, 1, 0, rockMaterial2);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -250,6 +267,23 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
     this.translate(0, 12, 0);
     this.hive.display();
+    this.popMatrix();
+
+    this.pushMatrix();
+    this.scale(1, 0.8, 2);
+    this.translate(-60, 1, 10);    
+    this.rock.display();
+    this.popMatrix();
+
+
+    this.pushMatrix();
+    this.translate(55, 0.5, 25);
+    this.rock2.display();
+    this.popMatrix();
+
+    this.pushMatrix();
+    this.translate(50, 0.5, -70);
+    this.rock3.display();
     this.popMatrix();
 
     

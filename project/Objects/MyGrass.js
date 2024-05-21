@@ -33,7 +33,7 @@ export class MyGrass extends CGFobject {
             let bladeHeight = 2.0 + Math.random() * 1.0; // Taller grass blades
 
             // Create a new subdivided blade and add it to the blades array
-            let blade = new MySingularGrass(this.scene, base, bladeHeight, this.subdivisions);
+            let blade = new MySingularGrass(this.scene, base, bladeHeight, this.subdivisions, this.material);
             this.blades.push({ blade, x, z, rotation: Math.random() * Math.PI * 2 });
         }
     }

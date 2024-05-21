@@ -48,9 +48,7 @@ export class MyScene extends CGFscene {
     this.pollen = new MyPollen(this, 16, 8, 0.5);
     this.hive = new MyHive(this);
     this.bee = new MyBee(this, this.hive);
-    this.grass = new MyGrass(this, 50, 50, 500, 3); // 500 blades of grass over a 50x50 area
-    this.singularGrass = new MySingularGrass(this, 1, 5, 3);
-    //this.singularGrass = new MySingularGrass(this, 0.5, 2, 4);
+    this.grass = new MyGrass(this, 50, 50, 1500, 3); // 500 blades of grass over a 50x50 area
     this.shader = new CGFshader(this.gl, "shaders/shader.vert", "shaders/shader.frag");
 
     //Objects connected to MyInterface
@@ -90,7 +88,6 @@ export class MyScene extends CGFscene {
   update(t) {
     this.bee.update(t);
     this.checkKeys();  // Check key states and react
-
     this.shader.setUniformsValues({ timeFactor: t / 100 % 100 });
   }
 
@@ -100,7 +97,7 @@ export class MyScene extends CGFscene {
         this.bee.accelerate(this.speedFactor);
     }
     if (this.gui.isKeyPressed("KeyS")) {
-        this.bee.accelerate(-this.speedFactor);
+        this.bee.accelerate(-1.5 * this.speedFactor);
     }
     if (this.gui.isKeyPressed("KeyA")) {
         this.bee.turn(-this.speedFactor * 0.5);
@@ -253,21 +250,13 @@ export class MyScene extends CGFscene {
     //this.hive.display();
     this.popMatrix();
 
-    /*
-    this.pushMatrix();
-    this.scale(1.3, 1.3, 1.3);
-    this.grass.display();
-    this.popMatrix();
-    */
-    
     
     this.pushMatrix();
-    this.translate(0, 0, 0);
     this.setActiveShader(this.shader);
-    this.singularGrass.display();
+    this.grass.display();
     this.setActiveShader(this.defaultShader);
     this.popMatrix();
-    
+
 
 
 

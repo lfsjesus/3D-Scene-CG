@@ -17,10 +17,13 @@ void main() {
     
     vTextureCoord = aTextureCoord;
     float height = 5.0;
-    float windFactor = 0.5;
+    float windFactor = 0.8;
+    
     if(aVertexPosition.y > 0.0){
-        float ratio = aVertexPosition.y / height;
+        float ratio = (aVertexPosition.y / height) * (aVertexPosition.y / height);
+
         offset = vec3(0.0, 0.0, windFactor * ratio * sin (timeFactor));
+        
     }
 
     

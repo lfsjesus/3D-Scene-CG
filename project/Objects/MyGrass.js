@@ -1,6 +1,7 @@
 // MyGrass.js
-import { CGFobject, CGFappearance } from '../../lib/CGF.js';
+import { CGFobject, CGFappearance , CGFtexture} from '../../lib/CGF.js';
 import { MySingularGrass } from './MySingularGrass.js';
+
 
 export class MyGrass extends CGFobject {
     constructor(scene, width, height, numBlades, subdivisions) {
@@ -16,9 +17,9 @@ export class MyGrass extends CGFobject {
 
     initMaterials() {
         this.material = new CGFappearance(this.scene);
-        this.material.setAmbient(0.0, 0.5, 0.0, 1.0);
-        this.material.setDiffuse(0.0, 0.8, 0.0, 1.0);
-        this.material.setSpecular(0.1, 0.1, 0.1, 1.0);
+        this.grassTexture = new CGFtexture(this.scene, 'images/singleGrass.png');
+        this.material.setTexture(this.grassTexture);
+        this.material.setTextureWrap('REPEAT', 'REPEAT');
         this.material.setShininess(10.0);
     }
 
@@ -29,8 +30,8 @@ export class MyGrass extends CGFobject {
             let z = Math.random() * this.height - this.height / 2;
 
             // Randomize the size of each blade
-            let base = 0.05 + Math.random() * 0.1;
-            let bladeHeight = 2.0 + Math.random() * 1.0; // Taller grass blades
+            let base = 0.2 + Math.random() * 0.1;
+            let bladeHeight = 2.0 + Math.random() * 5.0; // Taller grass blades
 
             // Create a new subdivided blade and add it to the blades array
             let blade = new MySingularGrass(this.scene, base, bladeHeight, this.subdivisions, this.material);

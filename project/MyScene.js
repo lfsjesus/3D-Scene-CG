@@ -276,12 +276,13 @@ export class MyScene extends CGFscene {
 
 
     this.pushMatrix();
-    this.translate(55, 0.5, 15);
+    this.translate(55, 1, 15);
     this.rock2.display();
     this.popMatrix();
 
     this.pushMatrix();
-    this.translate(50, 0.5, -70);
+    this.translate(45, 0.8, -70);
+    this.scale(1.7,0.8,0.9);
     this.rock3.display();
     this.popMatrix();
 

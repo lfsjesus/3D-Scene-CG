@@ -18,6 +18,7 @@ There is a bee that flies around the scene and lands on the flowers to collect p
     3) Pressing the 'F' key will make the bee to find the nearest flower and descend there in a parabolic trajectory.
     4) Different textures for rocks, petals, stem, etc were used to improve that random aspect of the scene.
     5) Each flower has two layers of petals, making it more realistic.
+    6) The bee stops the wings to rest when it is in a flower.
 
 ## Final Scene Appearance
 

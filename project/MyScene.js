@@ -9,7 +9,6 @@ import { MyHive } from "./Objects/MyHive.js";
 import { MyGrass } from './Objects/MyGrass.js';
 import { MyRock} from './Objects/MyRock.js';
 import { MySingularGrass } from "./Objects/MySingularGrass.js";
-
 /**
  * MyScene
  * @constructor
@@ -62,10 +61,6 @@ export class MyScene extends CGFscene {
     this.beeScale = 1;
 
     this.garden = new MyGarden(this, this.gardenRows, this.gardenCols, this.flowerSpacing);
-
-    //this.garden = new MyGarden(this, 1, 1, this.flowerSpacing);
-
-
     this.enableTextures(true);
 
     //bee animation
@@ -231,6 +226,13 @@ export class MyScene extends CGFscene {
     this.panorama.display();
     this.popMatrix();
 
+
+    this.pushMatrix();
+    this.translate(12, 0, 0);
+    this.scale(this.beeScale, this.beeScale, this.beeScale);
+    this.bee.display();
+    this.popMatrix();
+
     this.pushMatrix();
     this.translate(12,0,0);
     this.garden.display();
@@ -241,13 +243,6 @@ export class MyScene extends CGFscene {
     this.translate(0, 0.5, 0);
     this.rockSet.display();
     this.popMatrix();
-
-    this.pushMatrix();
-    this.translate(12, 0, 0);
-    this.scale(this.beeScale, this.beeScale, this.beeScale);
-    this.bee.display();
-    this.popMatrix();
-
 
     this.pushMatrix();
     this.translate(0, 12, 0);

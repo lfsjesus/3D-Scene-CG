@@ -31,7 +31,7 @@ export class MyBee extends CGFobject {
         this.defaultY = 20;  // Default flying height
         this.carryingPollen = false;
         this.droppingPollen = false;
-        this.oldVelocity = 0;
+        this.oldVelocity = { x: 0, y: 0, z: 0 }
         this.pollenHeight = 0;
         this.pollenOffsetZ = 0;
         this.noMovementAllowed = false;
@@ -72,8 +72,8 @@ export class MyBee extends CGFobject {
         this.pickUpAnimation = false;
     }
 
-    goToPosition(position, reachedHive=false) {
-        this.reachedHive = reachedHive;
+    goToPosition(position, hiveTarget=false) {
+        this.hiveTarget = hiveTarget;
         this.targetPosition = position; // Store the target position
         this.reachedTarget = false; // Reset the flag
     
@@ -84,7 +84,7 @@ export class MyBee extends CGFobject {
         let angle = Math.atan2(dz, dx);
     
         this.turn(angle - this.orientation);
-        this.accelerate(0.1);
+        this.oldVelocity = { ...this.velocity }; // Store the current velocity
     
         // Set up parameters for parabolic movement
         this.startPosition = { ...this.position }; // Store the starting position
@@ -99,7 +99,7 @@ export class MyBee extends CGFobject {
 
         this.noMovementAllowed = true;
 
-        if (reachedHive) {
+        if (hiveTarget) {
             this.pollenHeight = 20; // Hive height
         }
     }
@@ -108,8 +108,8 @@ export class MyBee extends CGFobject {
 
     goDown(pollen, pollenHeight, pollenOffsetZ) {
         if (!this.stopped) {
-            this.oldVelocity = { ...this.velocity }; // Store the current velocity
-            this.velocity = { x: 0, y: -1, z: 0 }; // Set vertical downward velocity
+            
+            //this.velocity = { x: 0, y: -1, z: 0 }; // Set vertical downward velocity
             this.pollenHeight = pollenHeight;
             this.pollenOffsetZ = pollenOffsetZ;
         }
@@ -167,7 +167,7 @@ export class MyBee extends CGFobject {
                 this.velocity = { x: 0, y: 0, z: 0 }; // Stop the bee
                 this.parabolicMovement = false;
 
-                if(!this.reachedHive){
+                if(!this.hiveTarget){
                     this.stopped = true; // If not reaching the hive, stop the bee
                 } 
 
@@ -219,6 +219,9 @@ export class MyBee extends CGFobject {
         } else {
             this.position.y += 0.5; // Move upwards
         }
+
+        this.targetPosition = null; // Reset the target position
+        this.parabolicMovement = false; // Reset the parabolic movement flag
     }
 
      // Pollen Drop Animation
@@ -254,13 +257,14 @@ export class MyBee extends CGFobject {
     }
     
     accelerate(increment) { 
-
-        this.maxSpeed = 50 * increment; // We are multiplying by 50 because the max speed is 25 units and the normal increment is 0.5
-        //increment is the speedFactor in MyInterface.js
-
         if (this.noMovementAllowed) return; // Do nothing
 
+        // We are multiplying by 50 because the max speed is 25 units and the normal increment is 0.5
+        //increment is the speedFactor in MyInterface.js
 
+        increment > 0 ? this.maxSpeed = 50 *increment : this.maxSpeed = -50 * increment;
+        
+       
         // Adjust the speed by modifying the magnitude of the velocity vector
         let speed = Math.sqrt(this.velocity.x ** 2 + this.velocity.z ** 2) + increment;
         speed = Math.min(speed, this.maxSpeed); // Clamp speed to the maximum speed

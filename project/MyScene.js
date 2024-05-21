@@ -50,6 +50,7 @@ export class MyScene extends CGFscene {
     this.bee = new MyBee(this, this.hive);
     //this.grass = new MyGrass(this, 50, 50, 1000, 3); // 500 blades of grass over a 50x50 area
     //this.singularGrass = new MySingularGrass(this, 0.5, 2, 3);
+    this.singularGrass = new MySingularGrass(this, 0.5, 2, 4);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -230,23 +231,23 @@ export class MyScene extends CGFscene {
     this.pushMatrix();
     this.translate(12, 0, 0);
     this.scale(this.beeScale, this.beeScale, this.beeScale);
-    this.bee.display();
+    //this.bee.display();
     this.popMatrix();
 
     this.pushMatrix();
     this.translate(12,0,0);
-    this.garden.display();
+    //this.garden.display();
     this.popMatrix();
 
     this.pushMatrix();
     this.scale(3.5, 3.5, 3.5);
     this.translate(0, 0.5, 0);
-    this.rockSet.display();
+    //this.rockSet.display();
     this.popMatrix();
 
     this.pushMatrix();
     this.translate(0, 12, 0);
-    this.hive.display();
+    //this.hive.display();
     this.popMatrix();
 
     /*
@@ -256,12 +257,12 @@ export class MyScene extends CGFscene {
     this.popMatrix();
     */
     
-    /*
+    
     this.pushMatrix();
-    this.translate(0, 0, 0.1);
+    this.translate(0, 0, 0);
     this.singularGrass.display();
     this.popMatrix();
-    */
+    
 
 
 

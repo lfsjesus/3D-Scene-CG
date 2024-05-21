@@ -1,5 +1,4 @@
 import { CGFobject } from '../../lib/CGF.js';
-import { MyTriangle } from '../Primitives/MyTriangle.js';
 
 export class MySingularGrass extends CGFobject {
     constructor(scene, base, height, subdivisions) {
@@ -7,41 +6,50 @@ export class MySingularGrass extends CGFobject {
         this.base = base;
         this.height = height;
         this.subdivisions = subdivisions;
-        this.triangles = [];
-        this.initSubdivisions();
+        this.initBuffers();
     }
 
-    initSubdivisions() {
-        let subHeight = this.height / this.subdivisions;
-        let subBase = this.base / this.subdivisions;
+    initBuffers() {
+        this.vertices = [];
+        this.indices = [];
+        this.normals = [];
+        this.texCoords = [];
 
-        for (let i = 0; i < this.subdivisions; i++) {
-            let b = this.base - (i * subBase * 0.3);
-            this.triangles.push(new MyTriangle(this.scene, b, subHeight, true));
-        }
-        this.triangles.push(new MyTriangle(this.scene, this.base, this.height));
+        // Function to add a triangular section
+        const addTriangle = (v1, v2, v3) => {
+            let index = this.vertices.length / 3;
+            this.vertices.push(...v1, ...v2, ...v3);
+            this.indices.push(index, index + 1, index + 2);
+            this.normals.push(0, 0, 1, 0, 0, 1, 0, 0, 1);
+            this.texCoords.push(0, 0, 1, 0, 0.5, 1);
+        };
 
+        // Create a large triangle with smaller triangular sections
+        let top = [0, this.height, 0];
+        let left = [-this.base / 2, 0, 0];
+        let right = [this.base / 2, 0, 0];
 
-    }
+        addTriangle(top, left, right);
 
-    display() {
-        for (let i = 0; i < this.triangles.length; i++) {
-            let triangle = this.triangles[i];
-            let yOffset = i * this.height / this.subdivisions;
+        // Add subdivisions within the main triangle
+        const createSubdivisions = (v1, v2, v3, level) => {
+            if (level <= 0) return;
+            let mid1 = [(v1[0] + v2[0]) / 2, (v1[1] + v2[1]) / 2, 0];
+            let mid2 = [(v2[0] + v3[0]) / 2, (v2[1] + v3[1]) / 2, 0];
+            let mid3 = [(v3[0] + v1[0]) / 2, (v3[1] + v1[1]) / 2, 0];
 
-            // Display the normal triangle
-            this.scene.pushMatrix();
-            this.scene.translate(0, yOffset, 0);
-            triangle.display();
-            this.scene.popMatrix();
-            
-            // Display the upside-down triangle, connected to the first
-            this.scene.pushMatrix();
-            this.scene.translate(triangle.base, 0, 0);
-            this.scene.translate(0, yOffset + this.height / this.subdivisions, 0);
-            this.scene.rotate(Math.PI, 0, 0, 1); // Rotate 180 degrees around the Z-axis
-            triangle.display();
-            this.scene.popMatrix();
-        }
+            addTriangle(mid1, v2, mid2);
+            addTriangle(mid1, mid2, mid3);
+            addTriangle(mid3, v3, mid2);
+
+            createSubdivisions(v1, mid1, mid3, level - 1);
+            createSubdivisions(mid1, v2, mid2, level - 1);
+            createSubdivisions(mid3, mid2, v3, level - 1);
+        };
+
+        createSubdivisions(top, left, right, this.subdivisions);
+
+        this.primitiveType = this.scene.gl.TRIANGLES;
+        this.initGLBuffers();
     }
 }

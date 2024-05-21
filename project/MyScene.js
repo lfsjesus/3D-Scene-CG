@@ -214,6 +214,11 @@ export class MyScene extends CGFscene {
     if (this.displayAxis) this.axis.display();
 
     // ---- BEGIN Primitive drawing section
+    this.pushMatrix();
+
+      
+    this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
+    
 
     this.pushMatrix();
     //this.translate(0, -100, 0);
@@ -238,8 +243,8 @@ export class MyScene extends CGFscene {
     this.popMatrix();
 
     this.pushMatrix();
-    this.scale(this.beeScale, this.beeScale, this.beeScale);
     this.translate(12, 0, 0);
+    this.scale(this.beeScale, this.beeScale, this.beeScale);
     this.bee.display();
     this.popMatrix();
 
@@ -263,9 +268,9 @@ export class MyScene extends CGFscene {
     this.popMatrix();
     */
 
-    console.log(this.hive.pollens);
-  
 
+
+    this.popMatrix();
 
 
     // ---- END Primitive drawing section

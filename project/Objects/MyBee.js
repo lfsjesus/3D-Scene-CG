@@ -253,7 +253,11 @@ export class MyBee extends CGFobject {
         this.velocity.z = Math.sin(this.orientation) * speed;
     }
     
-    accelerate(increment) {
+    accelerate(increment) { 
+
+        this.maxSpeed = 50 * increment; // We are multiplying by 50 because the max speed is 25 units and the normal increment is 0.5
+        //increment is the speedFactor in MyInterface.js
+
         if (this.noMovementAllowed) return; // Do nothing
 
 

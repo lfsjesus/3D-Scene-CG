@@ -91,8 +91,18 @@ export class MyGarden extends CGFobject {
         this.flowers.push({ flower: flower, position: [xPosition, yPosition], row: i, col: j });
     }
 
-    updateDimensions(newRows, newCols, flowerSpacing) {
-        this.flowerSpacing = flowerSpacing;
+    updateDimensions(newRows, newCols, newFlowerSpacing) {
+        // Update flower spacing
+        if (newFlowerSpacing !== this.flowerSpacing) {
+            this.flowerSpacing = newFlowerSpacing;
+            // Update positions of all flowers based on the new flower spacing
+            for (let item of this.flowers) {
+                let i = item.row;
+                let j = item.col;
+                item.position[0] = i * this.flowerSpacing + Math.random() * this.flowerSpacing / 1.5;
+                item.position[1] = j * this.flowerSpacing + Math.random() * this.flowerSpacing / 1.5;
+            }
+        }
 
         // Filter out flowers that are within the new dimensions
         this.flowers = this.flowers.filter(flower => flower.row < newRows && flower.col < newCols);
@@ -110,6 +120,7 @@ export class MyGarden extends CGFobject {
             }
         }
     }
+
 
     display() {
         for (let item of this.flowers) {

@@ -147,7 +147,6 @@ export class MyBee extends CGFobject {
             this.droppingPollen = true;
             this.pollenDropPosition = { x: this.position.x, y: this.position.y, z: this.position.z };
             this.pollenDropStartTime = Date.now();
-            this.hive.addPollen(this.pollen); // Add the pollen to the hive
         }
     }
 
@@ -225,8 +224,8 @@ export class MyBee extends CGFobject {
      // Pollen Drop Animation
     if (this.droppingPollen) {
         let elapsedTime = (Date.now() - this.pollenDropStartTime) / 1000; // Time in seconds
-        let dropDuration = 2; // Duration of the drop in seconds
-        let dropHeight = 5; // Height from which pollen drops
+        let dropDuration = 0.5; // Duration of the drop in seconds
+        let dropHeight = 1; // Height from which pollen drops
 
         if (elapsedTime < dropDuration) {
             // Calculate the new position based on elapsed time
@@ -234,6 +233,7 @@ export class MyBee extends CGFobject {
             this.pollenDropPosition.y -= dropHeight * fallProgress;
         } else {
             this.droppingPollen = false; // End the dropping animation
+            this.hive.addPollen(this.pollen); // Add the pollen to the hive
         }
     }
 }

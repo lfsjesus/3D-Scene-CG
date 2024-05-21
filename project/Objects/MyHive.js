@@ -92,15 +92,19 @@ export class MyHive extends CGFobject {
         this.scene.popMatrix();
 
 
-        // Display the pollens
-        for(let pollen of this.pollens){
+        let gridSize = Math.sqrt(9); 
+        for(let i = 0; i < this.pollens.length; i++){
+            let pollen = this.pollens[i];
+
+            let x = i % gridSize; // x position in the grid
+            let z = Math.floor(i / gridSize); // z position in the grid
 
             this.scene.pushMatrix();
-            this.scene.translate(5, 15, 5);
+            this.scene.translate(x * 1.5, 4, z * 1.5); // Multiply by 2 to add some space between the pollens
+            this.scene.scale(2,2,2);
             pollen.display();
             this.scene.popMatrix();
         }
-
 
         this.scene.translate(0, 10, 0);
 

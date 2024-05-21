@@ -8,7 +8,7 @@ import { MyPollen } from "./Objects/MyPollen.js";
 import { MyHive } from "./Objects/MyHive.js";
 import { MyGrass } from './Objects/MyGrass.js';
 import { MyRock} from './Objects/MyRock.js';
-import { MySingularGrass } from "./Objects/MySingularGrass.js";
+
 /**
  * MyScene
  * @constructor

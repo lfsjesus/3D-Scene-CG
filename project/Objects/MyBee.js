@@ -171,6 +171,7 @@ export class MyBee extends CGFobject {
                 } 
 
                 else{
+                    this.noMovementAllowed = false;
                     this.dropPollen(); // Drop the pollen if the bee reached the hive
                 }
 

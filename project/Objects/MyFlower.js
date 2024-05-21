@@ -21,10 +21,10 @@ export class MyFlower extends CGFobject {
 
 
 
-        this.receptacle = new MyReceptacle(scene, 16, 8, receptacleRadius, this.recepMat);
+        this.receptacle = new MyReceptacle(scene, 8, 4, receptacleRadius, this.recepMat);
 
         //there should be a 70% chance of having a pollen in the flower
-        if (Math.random() < 0.7) this.pollen = new MyPollen(scene, 16, 8, stemRadius * 2);
+        if (Math.random() < 0.7) this.pollen = new MyPollen(scene, 8, 4, stemRadius * 2);
         else this.pollen = null;
         
         
@@ -76,12 +76,12 @@ export class MyFlower extends CGFobject {
             //the stems should have a random curvature angle between -PI/8 and PI/8
             let curvatureAngle = Math.random() * Math.PI / 4 - Math.PI / 8;
 
-            this.stems.push(new MyStem(scene, 16, height, stemRadius, curvatureAngle));
+            this.stems.push(new MyStem(scene, 4, height, stemRadius, curvatureAngle));
 
             //between each pair of stems, there should be added a new stem with a petal
             if (i < numStems - 1) {
                 let stemSide = Math.random() < 0.5 ? -1 : 1;
-                this.stems.push(new MyStem(scene, 16, stemRadius * 2.5, stemRadius * 0.7, curvatureAngle, true, stemSide));
+                this.stems.push(new MyStem(scene, 4, stemRadius * 2.5, stemRadius * 0.7, curvatureAngle, true, stemSide));
             }
 
             this.pollenHeight += height * Math.cos(curvatureAngle);

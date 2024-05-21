@@ -80,6 +80,10 @@ export class MyScene extends CGFscene {
       1000,
       vec3.fromValues(10, 5, 5),
       vec3.fromValues(0, 0, 0)
+      /*
+      vec3.fromValues(50, -60, 50),
+      vec3.fromValues(0, -80, 0)
+      */
     );
   }
 
@@ -88,7 +92,7 @@ export class MyScene extends CGFscene {
   update(t) {
     this.bee.update(t);
     this.checkKeys();  // Check key states and react
-    this.shader.setUniformsValues({ timeFactor: t / 100 % 100 });
+    this.shader.setUniformsValues({ timeFactor: t / 130 % 100 });
   }
 
 
@@ -174,12 +178,12 @@ export class MyScene extends CGFscene {
 
 
   initLights() {
-    this.lights[0].setPosition(15, 0, 5, 1);
+    this.lights[0].setPosition(15, 10, 5, 1);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[0].enable();
     this.lights[0].update();
 
-    this.lights[1].setPosition(5, 15, 5, 1);
+    this.lights[1].setPosition(-20,80, -20, 1);
     this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[1].enable();
     this.lights[1].update();
@@ -212,9 +216,13 @@ export class MyScene extends CGFscene {
     // ---- BEGIN Primitive drawing section
     this.pushMatrix();
 
-      
     this.scale(this.scaleFactor, this.scaleFactor, this.scaleFactor);
-    
+
+    this.pushMatrix();
+    this.panorama.display();
+    this.popMatrix();
+
+
 
     this.pushMatrix();
     //this.translate(0, -100, 0);
@@ -223,31 +231,29 @@ export class MyScene extends CGFscene {
     this.plane.display();
     this.popMatrix();
 
-    this.pushMatrix();
-    this.panorama.display();
-    this.popMatrix();
+ 
 
 
     this.pushMatrix();
     this.translate(12, 0, 0);
     this.scale(this.beeScale, this.beeScale, this.beeScale);
-    //this.bee.display();
+    this.bee.display();
     this.popMatrix();
 
     this.pushMatrix();
     this.translate(12,0,0);
-    //this.garden.display();
+    this.garden.display();
     this.popMatrix();
 
     this.pushMatrix();
     this.scale(3.5, 3.5, 3.5);
     this.translate(0, 0.5, 0);
-    //this.rockSet.display();
+    this.rockSet.display();
     this.popMatrix();
 
     this.pushMatrix();
     this.translate(0, 12, 0);
-    //this.hive.display();
+    this.hive.display();
     this.popMatrix();
 
     

@@ -216,10 +216,6 @@ export class MyScene extends CGFscene {
     this.setShininess(10.0);
   }
   display() {
-
-    //this.garden = new MyGarden(this, this.gardenRows, this.gardenCols, this.flowerSpacing);
-
-
     // ---- BEGIN Background, camera and axis setup
     // Clear image and depth buffer everytime we update the scene
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);

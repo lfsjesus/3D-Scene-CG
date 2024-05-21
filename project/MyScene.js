@@ -78,12 +78,8 @@ export class MyScene extends CGFscene {
       1.0,
       0.1,
       1000,
-      vec3.fromValues(10, 5, 5),
+      vec3.fromValues(40, 25, 60),
       vec3.fromValues(0, 0, 0)
-      /*
-      vec3.fromValues(50, -60, 50),
-      vec3.fromValues(0, -80, 0)
-      */
     );
   }
 

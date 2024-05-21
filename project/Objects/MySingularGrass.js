@@ -16,7 +16,6 @@ export class MySingularGrass extends CGFobject {
         this.normals = [];
         this.texCoords = [];
 
-        let top = [0, this.height, 0];
         let bottomLeft = [-this.base / 2, 0, 0];
         let bottomRight = [this.base / 2, 0, 0];
 
@@ -38,9 +37,6 @@ export class MySingularGrass extends CGFobject {
             this.texCoords.push(0, 0, 1, 0, 0.5, 1);
         };
 
-        // Add the first large triangle
-        addTriangle(top, bottomLeft, bottomRight);
-        addTriangleBack(top, bottomRight, bottomLeft);
 
         // Subdivisions
         for (let i = 1; i <= this.subdivisions; i++) {
@@ -53,20 +49,16 @@ export class MySingularGrass extends CGFobject {
             addTriangle(newLeft, bottomRight, newRight);
             addTriangleBack(newLeft, bottomRight, bottomLeft);
             addTriangleBack(newRight, bottomRight, newLeft);
-            
+
             bottomLeft = newLeft;
             bottomRight = newRight;
         }
-
-        // Add the final isosceles triangle at the top
-        addTriangle(top, bottomLeft, bottomRight);
-        addTriangleBack(top, bottomRight, bottomLeft);
 
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
     }
 
-    display(){
+    display() {
         if (this.material) {
             this.material.apply();
         }

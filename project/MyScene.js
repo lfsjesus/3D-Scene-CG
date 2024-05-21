@@ -49,7 +49,7 @@ export class MyScene extends CGFscene {
     this.hive = new MyHive(this);
     this.bee = new MyBee(this, this.hive);
     this.grass = new MyGrass(this, 50, 50, 500, 3); // 500 blades of grass over a 50x50 area
-    this.singularGrass = new MySingularGrass(this, 0.5, 2, 3);
+    this.singularGrass = new MySingularGrass(this, 1, 5, 3);
     //this.singularGrass = new MySingularGrass(this, 0.5, 2, 4);
     this.shader = new CGFshader(this.gl, "shaders/shader.vert", "shaders/shader.frag");
 
